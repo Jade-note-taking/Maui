@@ -2,6 +2,7 @@
 using Auth0.OidcClient;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace JadeMaui;
 
@@ -14,12 +15,16 @@ public static class MauiProgram
             .UseMauiApp<App>()
             .ConfigureFonts(fonts =>
             {
-                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                fonts.AddFont("Inter-Regular.ttf", "InterRegular");
+                fonts.AddFont("Inter-Bold.ttf", "InterBold");
             });
 
-        builder.Services.AddSingleton<MainPage>();
+#if DEBUG
+        builder.Logging.AddDebug();
+#endif
 
+        builder.Services.AddSingleton<MainPage>();
+        builder.Services.AddSingleton<ProfilePage>();
 
         // Reading out from assembly into stream, you'll need to re-compile for updating configuration
         var a = Assembly.GetExecutingAssembly();

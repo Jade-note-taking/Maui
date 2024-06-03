@@ -5,11 +5,29 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:JadeMaui"
     Shell.FlyoutBehavior="Disabled"
-    Title="JadeMaui">
+    Title="Jade note taking">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <TabBar>
+        <Tab Title="Profile1">
+            <ShellContent
+                Title="Profile2"
+                ContentTemplate="{DataTemplate local:ProfilePage}"
+                Route="ProfilePage"/>
+        </Tab>
+
+        <Tab Title="Jade">
+            <ShellContent
+                Title="Jade"
+                ContentTemplate="{DataTemplate local:MainPage}"
+                Route="MainPage" />
+        </Tab>
+
+        <Tab Title="Tree view (fancy)">
+            <ShellContent
+                Title="Tree view (fancy)"
+                ContentTemplate="{DataTemplate local:ProfilePage}"
+                Route="ProfilePage" />
+        </Tab>
+    </TabBar>
 
 </Shell>

@@ -21,52 +21,6 @@
                 Clicked="CreateNewNote"
                 HorizontalOptions="Fill" />
 
-            <StackLayout
-                x:Name="LoginView">
-                <Button
-                    x:Name="LoginBtn"
-                    Text="Log In"
-                    SemanticProperties.Hint="Click to log in"
-                    Clicked="OnLoginClicked"
-                    HorizontalOptions="Center" />
-            </StackLayout>
-
-            <StackLayout
-                x:Name="HomeView"
-                IsVisible="false">
-                <Label
-                    Text="Hello, World!"
-                    Style="{StaticResource Headline}"
-                    SemanticProperties.HeadingLevel="Level1" />
-
-                <Label
-                    Text="Welcome to &#10;.NET Multi-platform App UI"
-                    Style="{StaticResource SubHeadline}"
-                    SemanticProperties.HeadingLevel="Level2"
-                    SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
-
-                <Image
-                    x:Name="UserPictureImg"
-                    SemanticProperties.Description="User's picture"
-                    HeightRequest="200"
-                    HorizontalOptions="Center" />
-
-                <Label
-                    x:Name="UsernameLbl"
-                    Text=""
-                    SemanticProperties.HeadingLevel="Level2"
-                    SemanticProperties.Description="User's name"
-                    FontSize="18"
-                    HorizontalOptions="Center" />
-
-                <Button
-                    x:Name="LogoutBtn"
-                    Text="Log Out"
-                    SemanticProperties.Hint="Click to log out"
-                    Clicked="OnLogoutClicked"
-                    HorizontalOptions="Center" />
-
-            </StackLayout>
         </VerticalStackLayout>
     </ScrollView>
 
