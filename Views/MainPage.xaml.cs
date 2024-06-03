@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
 
-namespace JadeMaui;
+namespace JadeMaui.Views;
 
 public partial class MainPage : ContentPage
 {

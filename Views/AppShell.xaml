@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Shell
-    x:Class="JadeMaui.AppShell"
+    x:Class="JadeMaui.Views.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:JadeMaui"
+    xmlns:views="using:JadeMaui.Views"
     Shell.FlyoutBehavior="Disabled"
     Title="Jade note taking">
 
@@ -11,21 +12,21 @@
         <Tab Title="Profile1">
             <ShellContent
                 Title="Profile2"
-                ContentTemplate="{DataTemplate local:ProfilePage}"
+                ContentTemplate="{DataTemplate views:ProfilePage}"
                 Route="ProfilePage"/>
         </Tab>
 
         <Tab Title="Jade">
             <ShellContent
                 Title="Jade"
-                ContentTemplate="{DataTemplate local:MainPage}"
+                ContentTemplate="{DataTemplate views:MainPage}"
                 Route="MainPage" />
         </Tab>
 
         <Tab Title="Tree view (fancy)">
             <ShellContent
                 Title="Tree view (fancy)"
-                ContentTemplate="{DataTemplate local:ProfilePage}"
+                ContentTemplate="{DataTemplate views:ProfilePage}"
                 Route="ProfilePage" />
         </Tab>
     </TabBar>

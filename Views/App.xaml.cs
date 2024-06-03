@@ -1,4 +1,4 @@
-﻿namespace JadeMaui;
+﻿namespace JadeMaui.Views;
 
 public partial class App : Application
 {

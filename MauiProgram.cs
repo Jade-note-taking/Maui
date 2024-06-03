@@ -1,5 +1,7 @@
 ﻿using System.Reflection;
 using Auth0.OidcClient;
+using JadeMaui.Services;
+using JadeMaui.Views;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -45,8 +47,11 @@ public static class MauiProgram
             ClientId = builder.Configuration["Auth0:ClientId"],
             RedirectUri = "jade://callback/",
             PostLogoutRedirectUri = "jade://callback/",
-            Scope = "openid profile email"
+            Scope = "openid profile email offline_access"
         }));
+
+        builder.Services.AddSingleton(new UserManager(builder.Configuration["Auth0:Domain"], builder.Configuration["Auth0:ClientId"]));
+        builder.Services.AddSingleton<TokenHandler>();
 
         builder.Services.AddSingleton(new HubConnectionBuilder()
             .WithUrl(builder.Configuration["SignalR:Url"])
