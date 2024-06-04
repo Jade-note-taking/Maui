@@ -13,6 +13,10 @@ public static class MauiProgram
     public static MauiApp CreateMauiApp()
     {
         var builder = MauiApp.CreateBuilder();
+    #if DEBUG
+        builder.Logging.AddDebug();
+    #endif
+
         builder
             .UseMauiApp<App>()
             .ConfigureFonts(fonts =>
@@ -21,40 +25,35 @@ public static class MauiProgram
                 fonts.AddFont("Inter-Bold.ttf", "InterBold");
             });
 
-#if DEBUG
-        builder.Logging.AddDebug();
-#endif
-
-        builder.Services.AddSingleton<MainPage>();
-        builder.Services.AddSingleton<ProfilePage>();
-
         // Reading out from assembly into stream, you'll need to re-compile for updating configuration
         var a = Assembly.GetExecutingAssembly();
         using var stream = a.GetManifestResourceStream("JadeMaui.appsettings.json");
-
         var config = new ConfigurationBuilder()
             .AddJsonStream(stream)
             .Build();
-
         builder.Configuration.AddConfiguration(config);
+        var auth0Domain = builder.Configuration["Auth0:Domain"] ?? "CONFIGURATION AUTH0:DOMAIN NOT FOUND";
+        var auth0ClientId = builder.Configuration["Auth0:ClientId"] ?? "CONFIGURATION AUTH0:CLIENTID NOT FOUND";
+        var signalRNoteUrl = builder.Configuration["SignalR:NoteUrl"] ?? "CONFIGURATION SIGNALR:NOTEURL NOT FOUND";
 
-
-        Console.WriteLine(builder.Configuration["Auth0:Domain"] ?? "we are fucked up");
-
-        builder.Services.AddSingleton(new Auth0Client(new()
+        // Singletons
+        var auth0Client = new Auth0Client(new()
         {
-            Domain = builder.Configuration["Auth0:Domain"],
-            ClientId = builder.Configuration["Auth0:ClientId"],
+            Domain = auth0Domain,
+            ClientId = auth0ClientId,
             RedirectUri = "jade://callback/",
             PostLogoutRedirectUri = "jade://callback/",
             Scope = "openid profile email offline_access"
-        }));
+        });
 
-        builder.Services.AddSingleton(new UserManager(builder.Configuration["Auth0:Domain"], builder.Configuration["Auth0:ClientId"]));
+        builder.Services.AddSingleton<MainPage>();
+        builder.Services.AddSingleton<ProfilePage>();
+        builder.Services.AddSingleton(auth0Client);
+        builder.Services.AddSingleton(new UserManager(auth0Domain, auth0ClientId, auth0Client));
         builder.Services.AddSingleton<TokenHandler>();
 
         builder.Services.AddSingleton(new HubConnectionBuilder()
-            .WithUrl(builder.Configuration["SignalR:Url"])
+            .WithUrl(signalRNoteUrl)
             .Build());
 
         return builder.Build();

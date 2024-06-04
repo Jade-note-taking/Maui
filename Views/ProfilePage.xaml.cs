@@ -45,11 +45,11 @@ public partial class ProfilePage : ContentPage
             HomeView.IsVisible = true;
             try
             {
-                await SecureStorage.Default.SetAsync("access_token", loginResult.AccessToken);
-                await SecureStorage.Default.SetAsync("id_token", loginResult.IdentityToken);
+                await UserManager.SetAccessToken(loginResult.AccessToken);
+                await UserManager.SetIdentityToken(loginResult.IdentityToken);
                 if (loginResult.RefreshToken != null)
                 {
-                    await SecureStorage.Default.SetAsync("refresh_token", loginResult.RefreshToken);
+                    await UserManager.SetRefreshToken(loginResult.RefreshToken);
                 }
             } catch (Exception ex)
             {
@@ -64,9 +64,7 @@ public partial class ProfilePage : ContentPage
 
     private async void OnLogoutClicked(object sender, EventArgs e)
     {
-        var logoutResult = await _auth0Client.LogoutAsync();
-
-        SecureStorage.Default.RemoveAll();
+        _userManager.LogOutUser();
 
         HomeView.IsVisible = false;
         LoginView.IsVisible = true;
