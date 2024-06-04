@@ -32,9 +32,9 @@ public static class MauiProgram
             .AddJsonStream(stream)
             .Build();
         builder.Configuration.AddConfiguration(config);
-        var auth0Domain = builder.Configuration["Auth0:Domain"] ?? "CONFIGURATION AUTH0:DOMAIN NOT FOUND";
-        var auth0ClientId = builder.Configuration["Auth0:ClientId"] ?? "CONFIGURATION AUTH0:CLIENTID NOT FOUND";
-        var signalRNoteUrl = builder.Configuration["SignalR:NoteUrl"] ?? "CONFIGURATION SIGNALR:NOTEURL NOT FOUND";
+        var auth0Domain = builder.Configuration["Auth0:Domain"]!;
+        var auth0ClientId = builder.Configuration["Auth0:ClientId"]!;
+        var signalRNoteUrl = builder.Configuration["SignalR:NoteUrl"]!;
 
         // Singletons
         var auth0Client = new Auth0Client(new()

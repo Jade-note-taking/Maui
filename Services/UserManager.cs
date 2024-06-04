@@ -69,7 +69,7 @@ public class UserManager
             }
 
             var refreshTokenResult = await _client.RefreshTokenAsync(refreshToken);
-            await SetRefreshToken(refreshTokenResult.AccessToken);
+            await SetAccessToken(refreshTokenResult.AccessToken);
             await SetIdentityToken(refreshTokenResult.IdentityToken);
             return await GetAuthenticatedUser();
         }
