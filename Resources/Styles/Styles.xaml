@@ -4,6 +4,18 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
+    <!-- Windows 11 Background Effect -->
+    <Style TargetType="ContentPage" ApplyToDerivedTypes="True">
+        <Setter Property="Background">
+            <Setter.Value>
+                <OnPlatform x:TypeArguments="Brush">
+                    <On Platform="Android" Value="Black" />
+                    <On Platform="Windows" Value="Transparent" />
+                </OnPlatform>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
     </Style>
@@ -134,7 +146,8 @@
 
     <Style TargetType="Frame">
         <Setter Property="HasShadow" Value="False" />
-        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />
+        <Setter Property="BorderColor" Value="Transparent" />
+        <Setter Property="Background" Value="Transparent" />
         <Setter Property="CornerRadius" Value="8" />
     </Style>
 

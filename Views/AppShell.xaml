@@ -5,30 +5,51 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:JadeMaui"
     xmlns:views="using:JadeMaui.Views"
-    Shell.FlyoutBehavior="Disabled"
+    FlyoutBehavior="Flyout"
+    Shell.BackgroundColor="{StaticResource PrimaryDark}"
+    Shell.ForegroundColor="{StaticResource PrimaryDarkText}"
+    Shell.TitleColor="{StaticResource PrimaryDarkText}"
     Title="Jade note taking">
 
-    <TabBar>
-        <Tab Title="Profile1">
+    <Shell.FlyoutBackgroundColor>
+        <OnPlatform x:TypeArguments="Color">
+            <On Platform="Android" Value="{StaticResource PrimaryDark}" />
+            <On Platform="Windows" Value="Transparent" />
+        </OnPlatform>
+    </Shell.FlyoutBackgroundColor>
+
+    <Shell.NavBarIsVisible>
+        <OnPlatform x:TypeArguments="x:Boolean">
+            <On Platform="Android" Value="True" />
+            <On Platform="Windows" Value="False" />
+        </OnPlatform>
+    </Shell.NavBarIsVisible>
+
+    <FlyoutItem Title="Profile" Icon="{FontImage Glyph=&#xf2bd;, FontFamily=FontAwesome}">
+        <Tab Title="Profile">
             <ShellContent
-                Title="Profile2"
+                Title="Profile"
                 ContentTemplate="{DataTemplate views:ProfilePage}"
                 Route="ProfilePage"/>
         </Tab>
+    </FlyoutItem>
 
+    <FlyoutItem Title="Jade" Icon="{FontImage Glyph=&#xf1c4;, FontFamily=FontAwesome}">
         <Tab Title="Jade">
             <ShellContent
                 Title="Jade"
                 ContentTemplate="{DataTemplate views:MainPage}"
                 Route="MainPage" />
         </Tab>
+    </FlyoutItem>
 
+    <FlyoutItem Title="Tree view (fancy)" Icon="{FontImage Glyph=&#xf0e8;, FontFamily=FontAwesome}">
         <Tab Title="Tree view (fancy)">
             <ShellContent
                 Title="Tree view (fancy)"
                 ContentTemplate="{DataTemplate views:ProfilePage}"
-                Route="ProfilePage" />
+                Route="ProfilePage" />  
         </Tab>
-    </TabBar>
+    </FlyoutItem>
 
 </Shell>

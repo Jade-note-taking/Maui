@@ -23,6 +23,7 @@ public static class MauiProgram
             {
                 fonts.AddFont("Inter-Regular.ttf", "InterRegular");
                 fonts.AddFont("Inter-Bold.ttf", "InterBold");
+                fonts.AddFont("FontAwesome.otf", "FontAwesome");
             });
 
         // Reading out from assembly into stream, you'll need to re-compile for updating configuration
