@@ -21,6 +21,26 @@
                 Clicked="CreateNewNote"
                 HorizontalOptions="Fill" />
 
+            <!-- <Button Text="Folders" -->
+            <!--         VerticalOptions="Start" -->
+            <!--         HorizontalOptions="End" -->
+            <!--         Margin="0,10,10,0" -->
+            <!--         Clicked="OnAddItemClicked"> -->
+            <!--     <Button.ImageSource> -->
+            <!--         <FontImageSource Glyph="" FontFamily="FontAwesome" Size="16" /> -->
+            <!--     </Button.ImageSource> -->
+            <!-- </Button> -->
+
+            <!-- <Button Text="New note" -->
+            <!--         VerticalOptions="Start" -->
+            <!--         HorizontalOptions="End" -->
+            <!--         Margin="0,10,10,0" -->
+            <!--         Clicked="OnAddItemClicked"> -->
+            <!-- <Button.ImageSource> -->
+            <!--     <FontImageSource Glyph="+" FontFamily="FontAwesome" Size="16" /> -->
+            <!-- </Button.ImageSource> -->
+            <!-- </Button> -->
+
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

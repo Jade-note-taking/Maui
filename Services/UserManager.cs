@@ -82,10 +82,10 @@ public class UserManager
         SecureStorage.Default.RemoveAll();
     }
 
-    public async Task<string?> GetUserEmail()
+    public async Task<string?> GetUserClaim(string claim, ClaimsPrincipal? user=null)
     {
-        var user = await GetAuthenticatedUser();
+        user ??= await GetAuthenticatedUser();
 
-        return user?.FindFirst(claim => claim.Type == "email")?.Value;
+        return user?.FindFirst(c => c.Type == claim)?.Value;
     }
 }

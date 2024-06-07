@@ -56,6 +56,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="AathifMahir.Maui.MauiIcons.Material" Version="3.0.0" />
 		<PackageReference Include="Auth0.OidcClient.MAUI" Version="1.0.1" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="IdentityModel.OidcClient.IdentityTokenValidator" Version="5.2.1" />
@@ -125,7 +126,6 @@
 
 	<ItemGroup>
 	  <Folder Include="Models\" />
-	  <Folder Include="Resources\Images\" />
 	  <Folder Include="ViewModels\" />
 	</ItemGroup>
 

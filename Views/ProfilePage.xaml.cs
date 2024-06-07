@@ -21,17 +21,20 @@ public partial class ProfilePage : ContentPage
     private async void OnLoaded(object sender, EventArgs e)
     {
         var user = await _userManager.GetAuthenticatedUser();
+        LoadingStack.IsVisible= false;
 
-        if (user == null) return;
+        if (user == null)
+        {
+            LoginStack.IsVisible = true;
+            return;
+        }
 
-        
-        // var claimsIdentities = user.Identities;
+        UsernameLabel.Text = user.Identity.Name;
+        UserEmailLabel.Text = await _userManager.GetUserClaim("email", user);
+        UserPicture.Source = await _userManager.GetUserClaim("picture", user);
 
-        UsernameLbl.Text = user.Identity.Name;
-        UserPictureImg.Source = user.Claims.FirstOrDefault(c => c.Type == "picture")?.Value;
-
-        LoginView.IsVisible = false;
-        HomeView.IsVisible = true;
+        LoginStack.IsVisible = false;
+        Profile.IsVisible = true;
     }
 
     private async void OnLoginClicked(object sender, EventArgs e)
@@ -41,24 +44,17 @@ public partial class ProfilePage : ContentPage
 
         if (!loginResult.IsError)
         {
-            UsernameLbl.Text = loginResult.User.Identity.Name;
-            UserPictureImg.Source = loginResult.User
-              .Claims.FirstOrDefault(c => c.Type == "picture")?.Value;
+            UsernameLabel.Text = loginResult.User.Identity.Name;
+            UserEmailLabel.Text = await _userManager.GetUserClaim("email", loginResult.User);
+            UserPicture.Source = await _userManager.GetUserClaim("picture", loginResult.User);
 
-            LoginView.IsVisible = false;
-            HomeView.IsVisible = true;
-            try
-            {
-                await UserManager.SetAccessToken(loginResult.AccessToken);
-                await UserManager.SetIdentityToken(loginResult.IdentityToken);
-                if (loginResult.RefreshToken != null)
-                {
-                    await UserManager.SetRefreshToken(loginResult.RefreshToken);
-                }
-            } catch (Exception ex)
-            {
-                await DisplayAlert("Error", ex.Message, "Ok");
-            }
+            LoginStack.IsVisible = false;
+            Profile.IsVisible = true;
+
+            await UserManager.SetAccessToken(loginResult.AccessToken);
+            await UserManager.SetIdentityToken(loginResult.IdentityToken);
+            if (loginResult.RefreshToken != null)
+                await UserManager.SetRefreshToken(loginResult.RefreshToken);
         }
         else
         {
@@ -66,11 +62,11 @@ public partial class ProfilePage : ContentPage
         }
     }
 
-    private async void OnLogoutClicked(object sender, EventArgs e)
+    private void Logout(object? sender, EventArgs eventArgs)
     {
         _userManager.LogOutUser();
 
-        HomeView.IsVisible = false;
-        LoginView.IsVisible = true;
+        Profile.IsVisible = false;
+        LoginStack.IsVisible = true;
     }
 }

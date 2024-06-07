@@ -1,60 +1,84 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:icons="http://www.aathifmahir.com/dotnet/2022/maui/icons"
              x:Class="JadeMaui.Views.ProfilePage"
              Loaded="OnLoaded">
-
-    <ScrollView>
-        <VerticalStackLayout
-            Padding="30,0"
-            Spacing="100">
-
-            <StackLayout
-                x:Name="LoginView">
-                <Button
-                    Text="Login"
-                    SemanticProperties.Hint="Click to log in"
-                    Clicked="OnLoginClicked"
-                    HorizontalOptions="Center" />
-            </StackLayout>
-
-            <StackLayout
-                x:Name="HomeView"
-                IsVisible="false">
-                <Label
-                    Text="Hello, World!"
-                    Style="{StaticResource Headline}"
-                    SemanticProperties.HeadingLevel="Level1" />
-
-                <Label
-                    Text="Welcome to &#10;.NET Multi-platform App UI"
-                    Style="{StaticResource SubHeadline}"
-                    SemanticProperties.HeadingLevel="Level2"
-                    SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
-
+    <Grid>
+        <FlexLayout x:Name="Profile"
+                    Direction="Row"
+                    Wrap="NoWrap"
+                    AlignItems="Center"
+                    IsVisible="False"
+                    Margin="0, 50,0,0"
+                    MinimumWidthRequest="600"
+                    VerticalOptions="Start"
+                    JustifyContent="Center"
+                    HorizontalOptions="Center">
+            <Frame
+                HeightRequest="55"
+                WidthRequest="55"
+                CornerRadius="25"
+                BorderColor="Black"
+                Padding="0">
                 <Image
-                    x:Name="UserPictureImg"
+                    x:Name="UserPicture"
                     SemanticProperties.Description="User's picture"
-                    HeightRequest="200"
-                    HorizontalOptions="Center" />
+                    HeightRequest="55"
+                    WidthRequest="55"
+                    Aspect="AspectFill"/>
+            </Frame>
 
+            <StackLayout
+                VerticalOptions="Center"
+                Margin="5,0,0,3">
                 <Label
-                    x:Name="UsernameLbl"
-                    Text=""
-                    SemanticProperties.HeadingLevel="Level2"
-                    SemanticProperties.Description="User's name"
-                    FontSize="18"
-                    HorizontalOptions="Center" />
-
-                <Button
-                    x:Name="LogoutBtn"
-                    Text="Log Out"
-                    SemanticProperties.Hint="Click to log out"
-                    Clicked="OnLogoutClicked"
-                    HorizontalOptions="Center" />
-
+                    x:Name="UsernameLabel"
+                    FontSize="18"/>
+                <Label
+                    x:Name="UserEmailLabel"
+                    FontSize="14"/>
             </StackLayout>
-        </VerticalStackLayout>
-    </ScrollView>
 
+            <Button
+                Text="Log Out"
+                VerticalOptions="Center"
+                Margin="15,0,0,0"
+                SemanticProperties.Hint="Click to log out"
+                ImageSource="{icons:Material Logout, IconSize=17}"
+                Clicked="Logout" />
+        </FlexLayout>
+
+        <FlexLayout x:Name="LoadingStack"
+                    Direction="Row"
+                    Wrap="NoWrap"
+                    AlignItems="Center"
+                    Margin="0, 50,0,0"
+                    MinimumWidthRequest="600"
+                    VerticalOptions="Start"
+                    JustifyContent="Center"
+                    HorizontalOptions="Center">
+
+            <ActivityIndicator IsRunning="True"
+                               IsVisible="True"
+                               VerticalOptions="CenterAndExpand"
+                               HorizontalOptions="CenterAndExpand"/>
+        </FlexLayout>
+
+        <StackLayout x:Name="LoginStack"
+                     Margin="0, 50"
+                     VerticalOptions="Start"
+                     IsVisible="False"
+                     HorizontalOptions="Center">
+
+            <Label Text="No account yet? Click login to create a new account."></Label>
+
+            <Button
+                HorizontalOptions="Center"
+                Margin="0,20,0,0"
+                Text="Login"
+                ImageSource="{icons:Material Login, IconSize=17}"
+                Clicked="OnLoginClicked" />
+        </StackLayout>
+    </Grid>
 </ContentPage>

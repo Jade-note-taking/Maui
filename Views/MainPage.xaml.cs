@@ -24,6 +24,15 @@ public partial class MainPage : ContentPage
         });
     }
 
+    async void OnAddItemClicked(object sender, EventArgs e)
+    {
+        // var navigationParameter = new Dictionary<string, object>
+        // {
+        //     { nameof(TodoItem), new TodoItem { ID = Guid.NewGuid().ToString() } }
+        // };
+        // await Shell.Current.GoToAsync(nameof(TodoItemPage), navigationParameter);
+    }
+
     private async void  CreateNewNote(object sender, EventArgs e)
     {
         await _connection.InvokeCoreAsync("Create", args: new object?[] { "my note name", "my start location" });

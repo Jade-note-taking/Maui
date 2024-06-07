@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:JadeMaui"
     xmlns:views="using:JadeMaui.Views"
+    xmlns:icons="http://www.aathifmahir.com/dotnet/2022/maui/icons"
     FlyoutBehavior="Flyout"
     Shell.BackgroundColor="{StaticResource PrimaryDark}"
     Shell.ForegroundColor="{StaticResource PrimaryDarkText}"
@@ -14,18 +15,18 @@
     <Shell.FlyoutBackgroundColor>
         <OnPlatform x:TypeArguments="Color">
             <On Platform="Android" Value="{StaticResource PrimaryDark}" />
-            <On Platform="Windows" Value="Transparent" />
+            <On Platform="WinUI" Value="Transparent" />
         </OnPlatform>
     </Shell.FlyoutBackgroundColor>
 
     <Shell.NavBarIsVisible>
         <OnPlatform x:TypeArguments="x:Boolean">
             <On Platform="Android" Value="True" />
-            <On Platform="Windows" Value="False" />
+            <On Platform="WinUI" Value="False" />
         </OnPlatform>
     </Shell.NavBarIsVisible>
 
-    <FlyoutItem Title="Profile" Icon="{FontImage Glyph=&#xf2bd;, FontFamily=FontAwesome}">
+    <FlyoutItem Title="Profile" Icon="{icons:Material Person, IconSize=17}">
         <Tab Title="Profile">
             <ShellContent
                 Title="Profile"
@@ -34,7 +35,7 @@
         </Tab>
     </FlyoutItem>
 
-    <FlyoutItem Title="Jade" Icon="{FontImage Glyph=&#xf1c4;, FontFamily=FontAwesome}">
+    <FlyoutItem Title="Jade" Icon="{icons:Material Home, IconSize=17}">
         <Tab Title="Jade">
             <ShellContent
                 Title="Jade"
@@ -43,7 +44,7 @@
         </Tab>
     </FlyoutItem>
 
-    <FlyoutItem Title="Tree view (fancy)" Icon="{FontImage Glyph=&#xf0e8;, FontFamily=FontAwesome}">
+    <FlyoutItem Title="Tree view (fancy)" Icon="{icons:Material AccountTree, IconSize=17}">
         <Tab Title="Tree view (fancy)">
             <ShellContent
                 Title="Tree view (fancy)"
@@ -51,5 +52,4 @@
                 Route="ProfilePage" />  
         </Tab>
     </FlyoutItem>
-
 </Shell>
