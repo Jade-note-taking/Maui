@@ -62,11 +62,15 @@ public partial class ProfilePage : ContentPage
         }
     }
 
-    private void Logout(object? sender, EventArgs eventArgs)
+    private async void Logout(object? sender, EventArgs eventArgs)
     {
-        _userManager.LogOutUser();
-
         Profile.IsVisible = false;
+        LoginStack.IsVisible = false;
+        LoadingStack.IsVisible= true;
+
+        await _userManager.LogOutUser();
+
         LoginStack.IsVisible = true;
+        LoadingStack.IsVisible= false;
     }
 }

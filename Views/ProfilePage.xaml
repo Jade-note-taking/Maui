@@ -1,84 +1,100 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:icons="http://www.aathifmahir.com/dotnet/2022/maui/icons"
-             x:Class="JadeMaui.Views.ProfilePage"
-             Loaded="OnLoaded">
+
+<ContentPage
+    Loaded="OnLoaded"
+    x:Class="JadeMaui.Views.ProfilePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:icons="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Clicked="Logout"
+            IconImageSource="{icons:Material Logout,
+                                             IconSize=17}"
+            Text="Log Out" />
+    </ContentPage.ToolbarItems>
     <Grid>
-        <FlexLayout x:Name="Profile"
-                    Direction="Row"
-                    Wrap="NoWrap"
-                    AlignItems="Center"
-                    IsVisible="False"
-                    Margin="0, 50,0,0"
-                    MinimumWidthRequest="600"
-                    VerticalOptions="Start"
-                    JustifyContent="Center"
-                    HorizontalOptions="Center">
+        <FlexLayout
+            AlignItems="Center"
+            Direction="Row"
+            HorizontalOptions="Center"
+            IsVisible="False"
+            JustifyContent="Center"
+            Margin="0,50,0,0"
+            MinimumWidthRequest="600"
+            VerticalOptions="Start"
+            Wrap="NoWrap"
+            x:Name="Profile">
             <Frame
-                HeightRequest="55"
-                WidthRequest="55"
-                CornerRadius="25"
                 BorderColor="Black"
-                Padding="0">
+                CornerRadius="25"
+                HeightRequest="55"
+                Padding="0"
+                WidthRequest="55">
                 <Image
-                    x:Name="UserPicture"
-                    SemanticProperties.Description="User's picture"
+                    Aspect="AspectFill"
                     HeightRequest="55"
+                    SemanticProperties.Description="User's picture"
                     WidthRequest="55"
-                    Aspect="AspectFill"/>
+                    x:Name="UserPicture" />
             </Frame>
 
-            <StackLayout
-                VerticalOptions="Center"
-                Margin="5,0,0,3">
-                <Label
-                    x:Name="UsernameLabel"
-                    FontSize="18"/>
-                <Label
-                    x:Name="UserEmailLabel"
-                    FontSize="14"/>
+            <StackLayout Margin="5,0,0,3" VerticalOptions="Center">
+                <Label FontSize="18" x:Name="UsernameLabel" />
+                <Label FontSize="14" x:Name="UserEmailLabel" />
             </StackLayout>
 
             <Button
-                Text="Log Out"
-                VerticalOptions="Center"
+                Clicked="Logout"
+                ImageSource="{icons:Material Logout,
+                                             IconSize=17}"
                 Margin="15,0,0,0"
-                SemanticProperties.Hint="Click to log out"
-                ImageSource="{icons:Material Logout, IconSize=17}"
-                Clicked="Logout" />
+                Text="Log Out"
+                VerticalOptions="Center">
+                <Button.IsVisible>
+                    <OnPlatform x:TypeArguments="x:Boolean">
+                        <On Platform="Android" Value="False" />
+                        <On Platform="WinUI" Value="True" />
+                    </OnPlatform>
+                </Button.IsVisible>
+            </Button>
+
         </FlexLayout>
 
-        <FlexLayout x:Name="LoadingStack"
-                    Direction="Row"
-                    Wrap="NoWrap"
-                    AlignItems="Center"
-                    Margin="0, 50,0,0"
-                    MinimumWidthRequest="600"
-                    VerticalOptions="Start"
-                    JustifyContent="Center"
-                    HorizontalOptions="Center">
+        <FlexLayout
+            AlignItems="Center"
+            Direction="Row"
+            HorizontalOptions="Center"
+            JustifyContent="Center"
+            Margin="0,50,0,0"
+            MinimumWidthRequest="600"
+            VerticalOptions="Start"
+            Wrap="NoWrap"
+            x:Name="LoadingStack">
 
-            <ActivityIndicator IsRunning="True"
-                               IsVisible="True"
-                               VerticalOptions="CenterAndExpand"
-                               HorizontalOptions="CenterAndExpand"/>
+            <ActivityIndicator
+                HorizontalOptions="CenterAndExpand"
+                IsRunning="True"
+                IsVisible="True"
+                VerticalOptions="CenterAndExpand" />
         </FlexLayout>
 
-        <StackLayout x:Name="LoginStack"
-                     Margin="0, 50"
-                     VerticalOptions="Start"
-                     IsVisible="False"
-                     HorizontalOptions="Center">
+        <StackLayout
+            HorizontalOptions="Center"
+            IsVisible="False"
+            Margin="0,50"
+            VerticalOptions="Start"
+            x:Name="LoginStack">
 
-            <Label Text="No account yet? Click login to create a new account."></Label>
+            <Label Text="No account yet? Click login to create a new account." />
 
             <Button
+                Clicked="OnLoginClicked"
                 HorizontalOptions="Center"
+                ImageSource="{icons:Material Login,
+                                             IconSize=17}"
                 Margin="0,20,0,0"
-                Text="Login"
-                ImageSource="{icons:Material Login, IconSize=17}"
-                Clicked="OnLoginClicked" />
+                Text="Login" />
         </StackLayout>
     </Grid>
 </ContentPage>

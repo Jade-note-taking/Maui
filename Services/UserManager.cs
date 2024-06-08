@@ -75,7 +75,7 @@ public class UserManager
         }
     }
 
-    public async void LogOutUser()
+    public async Task LogOutUser()
     {
         await _client.LogoutAsync();
 

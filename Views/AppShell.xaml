@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+
 <Shell
-    x:Class="JadeMaui.Views.AppShell"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:JadeMaui"
-    xmlns:views="using:JadeMaui.Views"
-    xmlns:icons="http://www.aathifmahir.com/dotnet/2022/maui/icons"
     FlyoutBehavior="Flyout"
     Shell.BackgroundColor="{StaticResource PrimaryDark}"
     Shell.ForegroundColor="{StaticResource PrimaryDarkText}"
     Shell.TitleColor="{StaticResource PrimaryDarkText}"
-    Title="Jade note taking">
+    Title="Jade note taking"
+    x:Class="JadeMaui.Views.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:icons="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+    xmlns:local="clr-namespace:JadeMaui"
+    xmlns:views="using:JadeMaui.Views"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
     <Shell.FlyoutBackgroundColor>
         <OnPlatform x:TypeArguments="Color">
@@ -26,30 +27,30 @@
         </OnPlatform>
     </Shell.NavBarIsVisible>
 
-    <FlyoutItem Title="Profile" Icon="{icons:Material Person, IconSize=17}">
+    <FlyoutItem Icon="{icons:Material Person, IconSize=17}" Title="Profile">
         <Tab Title="Profile">
             <ShellContent
-                Title="Profile"
                 ContentTemplate="{DataTemplate views:ProfilePage}"
-                Route="ProfilePage"/>
+                Route="ProfilePage"
+                Title="Profile" />
         </Tab>
     </FlyoutItem>
 
-    <FlyoutItem Title="Jade" Icon="{icons:Material Home, IconSize=17}">
+    <FlyoutItem Icon="{icons:Material Home, IconSize=17}" Title="Jade">
         <Tab Title="Jade">
             <ShellContent
-                Title="Jade"
                 ContentTemplate="{DataTemplate views:MainPage}"
-                Route="MainPage" />
+                Route="MainPage"
+                Title="Jade" />
         </Tab>
     </FlyoutItem>
 
-    <FlyoutItem Title="Tree view (fancy)" Icon="{icons:Material AccountTree, IconSize=17}">
+    <FlyoutItem Icon="{icons:Material AccountTree, IconSize=17}" Title="Tree view (fancy)">
         <Tab Title="Tree view (fancy)">
             <ShellContent
-                Title="Tree view (fancy)"
                 ContentTemplate="{DataTemplate views:ProfilePage}"
-                Route="ProfilePage" />  
+                Route="ProfilePage"
+                Title="Tree view (fancy)" />
         </Tab>
     </FlyoutItem>
 </Shell>
