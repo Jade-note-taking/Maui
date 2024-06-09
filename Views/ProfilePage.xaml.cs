@@ -1,4 +1,5 @@
 ﻿using Auth0.OidcClient;
+using JadeMaui.Helpers;
 using JadeMaui.Services;
 using Microsoft.Extensions.Configuration;
 
@@ -6,16 +7,13 @@ namespace JadeMaui.Views;
 
 public partial class ProfilePage : ContentPage
 {
-    private readonly Auth0Client _auth0Client;
-    private UserManager _userManager;
-    private readonly IConfiguration _configuration;
+    private readonly Auth0Client _auth0Client = ServiceHelper.GetService<Auth0Client>();
+    private readonly UserManager _userManager = ServiceHelper.GetService<UserManager>();
+    private readonly ConfigurationManager _configuration = ServiceHelper.GetService<ConfigurationManager>();
 
-    public ProfilePage(Auth0Client client, UserManager userManager, IConfiguration configuration)
+    public ProfilePage()
     {
         InitializeComponent();
-        _auth0Client = client;
-        _userManager = userManager;
-        _configuration = configuration;
     }
 
     private async void OnLoaded(object sender, EventArgs e)
@@ -40,7 +38,7 @@ public partial class ProfilePage : ContentPage
     private async void OnLoginClicked(object sender, EventArgs e)
     {
         // If audience parameter is not mentioned, returned token will be an opaque token instead of a JWT.
-        var loginResult = await _auth0Client.LoginAsync(new { audience = _configuration.GetValue<string>("Auth0:Audience")});
+        var loginResult = await _auth0Client.LoginAsync(new { audience = _configuration["Auth0:Audience"]});
 
         if (!loginResult.IsError)
         {

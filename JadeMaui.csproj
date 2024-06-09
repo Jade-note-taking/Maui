@@ -59,6 +59,7 @@
 		<PackageReference Include="AathifMahir.Maui.MauiIcons.Material" Version="3.0.0" />
 		<PackageReference Include="Auth0.OidcClient.MAUI" Version="1.0.1" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+		<PackageReference Include="epj.RouteGenerator" Version="1.0.1" />
 		<PackageReference Include="IdentityModel.OidcClient.IdentityTokenValidator" Version="5.2.1" />
 		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.1" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
@@ -76,10 +77,13 @@
 	  <MauiXaml Update="Views\AppShell.xaml">
 	    <SubType>Designer</SubType>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\MainPage.xaml">
+	  <MauiXaml Update="Views\JadePage.xaml">
 	    <SubType>Designer</SubType>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ProfilePage.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\NotesPage.xaml">
 	    <SubType>Designer</SubType>
 	  </MauiXaml>
 	</ItemGroup>
@@ -98,12 +102,16 @@
 	    <DependentUpon>AppShell.xaml</DependentUpon>
 	    <SubType>Code</SubType>
 	  </Compile>
-	  <Compile Update="Views\MainPage.xaml.cs">
+	  <Compile Update="Views\JadePage.xaml.cs">
 	    <DependentUpon>MainPage.xaml</DependentUpon>
 	    <SubType>Code</SubType>
 	  </Compile>
 	  <Compile Update="Views\ProfilePage.xaml.cs">
 	    <DependentUpon>ProfilePage.xaml</DependentUpon>
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="Views\NotesPage.xaml.cs">
+	    <DependentUpon>FoldersPage.xaml</DependentUpon>
 	    <SubType>Code</SubType>
 	  </Compile>
 	</ItemGroup>
@@ -122,10 +130,6 @@
 
 	<ItemGroup>
 		<EmbeddedResource Include="appsettings.json" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="ViewModels\" />
 	</ItemGroup>
 
 </Project>

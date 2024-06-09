@@ -39,7 +39,7 @@
     <FlyoutItem Icon="{icons:Material Home, IconSize=17}" Title="Jade">
         <Tab Title="Jade">
             <ShellContent
-                ContentTemplate="{DataTemplate views:MainPage}"
+                ContentTemplate="{DataTemplate views:JadePage}"
                 Route="MainPage"
                 Title="Jade" />
         </Tab>

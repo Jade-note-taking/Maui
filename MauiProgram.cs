@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Auth0.OidcClient;
+using epj.RouteGenerator;
 using JadeMaui.Services;
 using JadeMaui.Views;
 using MauiIcons.Material;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace JadeMaui;
 
+[AutoRoutes("Page")]
 public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()
@@ -48,11 +50,13 @@ public static class MauiProgram
             Scope = "openid profile email offline_access"
         });
 
-        builder.Services.AddSingleton<MainPage>();
+        builder.Services.AddSingleton<JadePage>();
+        builder.Services.AddSingleton<NotesPage>();
         builder.Services.AddSingleton<ProfilePage>();
+
         builder.Services.AddSingleton(auth0Client);
+        builder.Services.AddSingleton(builder.Configuration);
         builder.Services.AddSingleton(new UserManager(auth0Domain, auth0ClientId, auth0Client));
-        builder.Services.AddSingleton<TokenHandler>();
 
         builder.Services.AddSingleton(new HubConnectionBuilder()
             .WithUrl(signalRNoteUrl)
