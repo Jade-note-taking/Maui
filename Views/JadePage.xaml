@@ -15,7 +15,7 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem
             Command="{Binding NotesPageCommand}"
-            IconImageSource="{icons:Material Menu,
+            IconImageSource="{icons:Material FolderCopy,
                                              IconSize=17}"
             Text="Notes" />
     </ContentPage.ToolbarItems>
@@ -30,7 +30,7 @@
         <Button
             Command="{Binding NotesPageCommand}"
             HorizontalOptions="End"
-            ImageSource="{icons:Material Menu,
+            ImageSource="{icons:Material FolderCopy,
                                          IconSize=17}"
             Margin="0,15,15,0"
             Text="Notes"
