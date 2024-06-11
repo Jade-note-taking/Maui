@@ -24,8 +24,60 @@
         <Label
             FontSize="18"
             HorizontalOptions="Center"
+            IsVisible="False"
             Margin="0,50,0,0"
-            Text="Please select a note" />
+            Text="Please select a note"
+            VerticalOptions="Fill" />
+
+        <StackLayout
+            HorizontalOptions="Fill"
+            Margin="10,15"
+            x:Name="NoteContent">
+            <StackLayout.Triggers>
+                <DataTrigger
+                    Binding="{Binding Note}"
+                    TargetType="StackLayout"
+                    Value="{x:Null}">
+                    <Setter Property="IsVisible" Value="False" />
+                </DataTrigger>
+            </StackLayout.Triggers>
+
+            <Label
+                FontSize="18"
+                HorizontalOptions="Start"
+                Text="{Binding Note.location}" />
+            <Entry
+                FontSize="26"
+                Margin="0,30,0,0"
+                Text="{Binding Note.name}"
+                TextChanged="NoteUpdate" />
+            <Editor
+                AutoSize="TextChanges"
+                Margin="0,30,0,0"
+                MinimumHeightRequest="300"
+                Text="{Binding Content}"
+                TextChanged="NoteContentUpdate" />
+
+        </StackLayout>
+
+        <FlexLayout
+            AlignItems="Center"
+            Direction="Row"
+            HorizontalOptions="Center"
+            IsVisible="{Binding Loading}"
+            JustifyContent="Center"
+            Margin="0,50,0,0"
+            MinimumWidthRequest="600"
+            VerticalOptions="Start"
+            Wrap="NoWrap">
+
+            <ActivityIndicator
+                HorizontalOptions="CenterAndExpand"
+                IsRunning="True"
+                IsVisible="True"
+                VerticalOptions="CenterAndExpand" />
+        </FlexLayout>
+
 
         <Button
             Command="{Binding NotesPageCommand}"

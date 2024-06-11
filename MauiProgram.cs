@@ -50,10 +50,18 @@ public static class MauiProgram
             Scope = "openid profile email offline_access"
         });
 
+        // Pages
         builder.Services.AddSingleton<JadePage>();
         builder.Services.AddSingleton<NotesPage>();
         builder.Services.AddSingleton<ProfilePage>();
 
+        // Services
+        builder.Services.AddSingleton<CosmosService>();
+        builder.Services.AddSingleton<RestService>();
+        builder.Services.AddSingleton<NoteService>();
+        builder.Services.AddSingleton<DebounceService>();
+
+        // Other
         builder.Services.AddSingleton(auth0Client);
         builder.Services.AddSingleton(builder.Configuration);
         builder.Services.AddSingleton(new UserManager(auth0Domain, auth0ClientId, auth0Client));

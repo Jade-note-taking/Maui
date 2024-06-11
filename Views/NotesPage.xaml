@@ -2,10 +2,30 @@
 <ContentPage
     x:Class="JadeMaui.Views.NotesPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:viewmodels="clr-namespace:JadeMaui.ViewModels"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <ContentPage.BindingContext>
+        <viewmodels:NotesViewModel />
+    </ContentPage.BindingContext>
+
     <ScrollView>
         <VerticalStackLayout Padding="30,0" Spacing="25">
             <Label HorizontalOptions="Center" Text="FOLDERS HERE!" />
+            <CollectionView
+                ItemsSource="{Binding Notes}"
+                Margin="20"
+                SelectionChanged="NoteSelected"
+                SelectionMode="Single"
+                x:Name="NoteList">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="0.9*, 0.1*" Padding="20,0,0,0">
+                            <Label Text="{Binding name}" VerticalTextAlignment="Center" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </VerticalStackLayout>
+
     </ScrollView>
 </ContentPage>

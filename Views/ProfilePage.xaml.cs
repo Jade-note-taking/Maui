@@ -1,4 +1,5 @@
-﻿using Auth0.OidcClient;
+﻿using System.Diagnostics;
+using Auth0.OidcClient;
 using JadeMaui.Helpers;
 using JadeMaui.Services;
 using Microsoft.Extensions.Configuration;
@@ -18,6 +19,7 @@ public partial class ProfilePage : ContentPage
 
     private async void OnLoaded(object sender, EventArgs e)
     {
+        Debug.WriteLine(await SecureStorage.Default.GetAsync("access_token"));
         var user = await _userManager.GetAuthenticatedUser();
         LoadingStack.IsVisible= false;
 

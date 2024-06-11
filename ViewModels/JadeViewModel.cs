@@ -1,52 +1,58 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Diagnostics;
+using JadeMaui.Helpers;
+using JadeMaui.Services;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using JadeMaui.Models;
 using Microsoft.AspNetCore.SignalR.Client;
 
 namespace JadeMaui.ViewModels;
 
+[QueryProperty(nameof(JadeViewModel), "Note")]
 public partial class JadeViewModel : ObservableObject
 {
-    // private readonly HubConnection _connection;
+    private readonly CosmosService _cosmosService = ServiceHelper.GetService<CosmosService>();
+    private readonly NoteService _noteService = ServiceHelper.GetService<NoteService>();
+    private readonly DebounceService _debounceService = ServiceHelper.GetService<DebounceService>();
 
-    [ObservableProperty]
-    private string id;
+    [ObservableProperty] private Note? note = null;
 
-    [ObservableProperty]
-    private string title;
+    [ObservableProperty] private string? content = null;
 
-    [ObservableProperty]
-    private string content;
+    [ObservableProperty] private bool loading = false;
 
-    public JadeViewModel()
+    [ObservableProperty] private Timer? _noteUpdateTimer;
+
+    public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        // _connection = connection;
-        //
-        // Task.Run(() =>
-        // {
-        //     // Connecting to Hub
-        //     Dispatcher.Dispatch(async () => await _connection.StartAsync());
-        //
-        //     // Listening
-        //     // _connection.On<string>("Note.Create", (message) =>
-        //     // {
-        //     //     Message.Text = $"{DateTimeOffset.UtcNow.ToUnixTimeSeconds()} - there's new message coming!";
-        //     // });
-        // });
+        Loading = true;
+        if (query.TryGetValue("Note", out var value))
+        {
+            Note = value as Note;
+            StartContentSignalR();
+        }
+
+        Loading = false;
     }
 
-    async void OnAddItemClicked(object sender, EventArgs e)
+    private async void StartContentSignalR()
     {
-        // var navigationParameter = new Dictionary<string, object>
-        // {
-        //     { nameof(TodoItem), new TodoItem { ID = Guid.NewGuid().ToString() } }
-        // };
-        // await Shell.Current.GoToAsync(nameof(TodoItemPage), navigationParameter);
+        var connection = await _cosmosService.GetConnection();
+        connection.On<string>($"Note.UpdateContent.{Note.cosmosId}", (s) => Content = s);
+        Content = await _noteService.GetNote(Note.id);
     }
 
-    // private async void  CreateNewNote(object sender, EventArgs e)
-    // {
-    //     await _connection.InvokeCoreAsync("Create", args: new object?[] { "my note name", "my start location" });
-    // }
+    public void NoteContentUpdate() => _debounceService.Debounce(500, async () =>
+    {
+        var connection = await _cosmosService.GetConnection();
+        await connection.InvokeCoreAsync("UpdateContent", args: new object?[] { Note.cosmosId, Content });
+    });
+
+    public void NoteUpdate() => _debounceService.Debounce(500, async () =>
+    {
+        var connection = await _cosmosService.GetConnection();
+        await connection.InvokeCoreAsync("Update", args: new object?[] { Note.id, Note.name, Note.location });
+    });
 
     [RelayCommand]
     private async Task NotesPage()

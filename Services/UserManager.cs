@@ -6,7 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace JadeMaui.Services;
 
-public class UserManager
+public class UserManager : IUserManager
 {
     private string _domain = "";
     private string _clientId = "";
