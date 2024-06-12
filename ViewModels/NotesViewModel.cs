@@ -16,14 +16,6 @@ public partial class NotesViewModel : ObservableObject
     [ObservableProperty]
     private List<Note>? _notes;
 
-    public NotesViewModel()
-    {
-        Task.Run(async () =>
-        {
-            AllNotes = await _noteService.GetNotes();
-        });
-    }
-
     public async Task OnAppearing()
     {
         Notes = await _noteService.GetNotes();
@@ -32,7 +24,7 @@ public partial class NotesViewModel : ObservableObject
     public void SearchForNotes(object? sender, EventArgs eventArgs)
     {
         SearchBar searchBar = (SearchBar)sender;
-        var searchKeyword = searchBar.Text.Trim();
+        var searchKeyword = searchBar.Text;
 
         if (searchKeyword == string.Empty)
         {

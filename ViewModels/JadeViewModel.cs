@@ -19,10 +19,11 @@ public partial class JadeViewModel : ObservableObject
     [ObservableProperty] private Timer? _noteUpdateTimer;
     [ObservableProperty] private List<string> _locations;
     [ObservableProperty] private string _selectedLocation;
+    [ObservableProperty] private string _noteName;
 
     public async void OnLoaded()
     {
-        if (Note == null) // magical code, mvvm toolkit is somehow crazy
+        if (Note == null) // magical code, mvvm toolkit is somehow crazy. DON'T TOUCH IT
         {
             Note = new Note();
             Note = null;
@@ -36,6 +37,8 @@ public partial class JadeViewModel : ObservableObject
         {
             if (note.location != null) locationsList.Add(note.location);
         }
+
+        locationsList = locationsList.Distinct().ToList();
         locationsList.Sort();
         Locations = locationsList;
 
@@ -48,14 +51,16 @@ public partial class JadeViewModel : ObservableObject
 
         if (value == null)
         {
-            Content = null;
             Note = null;
+            NoteName = "";
+            Content = null;
             SelectedLocation = "./";
         }
         else
         {
             Note = value as Note;
             SelectedLocation = Note.location;
+            NoteName = Note.name;
             StartSignalRConnection();
         }
     }
@@ -79,6 +84,7 @@ public partial class JadeViewModel : ObservableObject
     {
         if (Note == null) return;
         var connection = await _cosmosService.GetConnection();
+        Note.name = NoteName;
         await connection.InvokeCoreAsync("Update", args: new object?[] { Note.id, Note.name, Note.location });
     });
 
@@ -91,8 +97,20 @@ public partial class JadeViewModel : ObservableObject
     });
 
     [RelayCommand]
+    private async Task SaveNote()
+    {
+        if (SelectedLocation == null || NoteName == null) return;
+        var noteLocation = SelectedLocation == "./" ? null : SelectedLocation;
+
+        var connection = await _cosmosService.GetConnection();
+        await connection.InvokeCoreAsync("Create", args: new object?[] {NoteName, noteLocation, Content});
+        await NotesPage();
+    }
+
+    [RelayCommand]
     private async Task NotesPage()
     {
+        await _cosmosService.StopConnection();
         await Shell.Current.GoToAsync(Routes.NotesPage);
     }
 }

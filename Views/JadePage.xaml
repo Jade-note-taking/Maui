@@ -19,6 +19,20 @@
             IconImageSource="{icons:Material FolderCopy,
                                              IconSize=17}"
             Text="Notes" />
+        <!--  <ToolbarItem  -->
+        <!--  Command="{Binding NotesPageCommand}"  -->
+        <!--  IconImageSource="{icons:Material FolderCopy,  -->
+        <!--  IconSize=17}"  -->
+        <!--  Text="Notes">  -->
+        <!--     <ToolbarItem.Triggers> -->
+        <!--  <DataTrigger  -->
+        <!--  Binding="{Binding Note}"  -->
+        <!--  TargetType="ToolbarItem"  -->
+        <!--  Value="{x:Null}">  -->
+        <!--             <Setter Property="IsVisible" Value="True" /> -->
+        <!--         </DataTrigger> -->
+        <!--     </ToolbarItem.Triggers> -->
+        <!-- </ToolbarItem> -->
     </ContentPage.ToolbarItems>
 
 
@@ -58,6 +72,7 @@
             </Button>
 
             <Button
+                Command="{Binding SaveNoteCommand}"
                 Grid.Column="2"
                 ImageSource="{icons:Material Check,
                                              IconSize=17}"
@@ -84,7 +99,7 @@
                 FontSize="26"
                 Margin="0,15,0,0"
                 Placeholder="Note title"
-                Text="{Binding Note.name}"
+                Text="{Binding NoteName}"
                 TextChanged="NoteNameUpdate" />
             <Editor
                 AutoSize="TextChanges"

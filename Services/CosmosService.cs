@@ -21,4 +21,10 @@ public class CosmosService
         return _connection;
     }
 
+    public async Task StopConnection()
+    {
+        if (_connection.State == HubConnectionState.Disconnected) return;
+
+        await _connection.StopAsync();
+    }
 }
