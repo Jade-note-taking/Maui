@@ -1,7 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
+
 <ContentPage
     x:Class="JadeMaui.Views.NotesPage"
+    x:DataType="viewmodels:NotesViewModel"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:icons="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime"
     xmlns:viewmodels="clr-namespace:JadeMaui.ViewModels"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     <ContentPage.BindingContext>
@@ -9,23 +13,46 @@
     </ContentPage.BindingContext>
 
     <ScrollView>
-        <VerticalStackLayout Padding="30,0" Spacing="25">
-            <Label HorizontalOptions="Center" Text="FOLDERS HERE!" />
+        <VerticalStackLayout Margin="15,15,15,0">
+
+            <Grid ColumnDefinitions="*, Auto" ColumnSpacing="10">
+                <SearchBar
+                    Grid.Column="0"
+                    Placeholder="Search for notes"
+                    SearchButtonPressed="SearchForNotes"
+                    TextChanged="SearchForNotes"
+                    VerticalOptions="Center" />
+                <Button
+                    Clicked="GoBack"
+                    Grid.Column="1"
+                    ImageSource="{icons:Material Add,
+                                                 IconSize=17}"
+                    Text="New"
+                    VerticalOptions="Center">
+                    <Button.IsVisible>
+                        <OnPlatform x:TypeArguments="system:Boolean">
+                            <On Platform="Android" Value="False" />
+                            <On Platform="WinUI" Value="True" />
+                        </OnPlatform>
+                    </Button.IsVisible>
+                </Button>
+            </Grid>
+
             <CollectionView
+                BackgroundColor="Gray"
                 ItemsSource="{Binding Notes}"
-                Margin="20"
+                Margin="0,15,0,0"
                 SelectionChanged="NoteSelected"
                 SelectionMode="Single"
-                x:Name="NoteList">
+                x:Name="NoteList"
+                xmlns:controls="clr-namespace:JadeMaui.Controls">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid ColumnDefinitions="0.9*, 0.1*" Padding="20,0,0,0">
-                            <Label Text="{Binding name}" VerticalTextAlignment="Center" />
-                        </Grid>
+                        <controls:NoteInListControl />
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </VerticalStackLayout>
-
     </ScrollView>
+
 </ContentPage>

@@ -1,4 +1,5 @@
-﻿using JadeMaui.ViewModels;
+﻿using System.Diagnostics;
+using JadeMaui.ViewModels;
 
 namespace JadeMaui.Views;
 
@@ -13,8 +14,13 @@ public partial class JadePage : ContentPage, IQueryAttributable
         BindingContext = ViewModel;
     }
 
-    public void ApplyQueryAttributes(IDictionary<string, object> query) => ViewModel.ApplyQueryAttributes(query);
+    public void ApplyQueryAttributes(IDictionary<string, object?> query) => ViewModel.ApplyQueryAttributes(query);
 
-    private void NoteContentUpdate(object? sender, EventArgs e) => ViewModel.NoteContentUpdate(); // Note content update
-    private void NoteUpdate(object? sender, EventArgs e) => ViewModel.NoteUpdate(); // Any other note update
+    private void NoteContentUpdate(object sender, TextChangedEventArgs e) =>
+        ViewModel.NoteContentUpdate(e); // Note content update
+
+    private void NoteNameUpdate(object? sender, EventArgs e) => ViewModel.NoteNameUpdate();
+    private void NoteLocationUpdate(object? sender, EventArgs e) => ViewModel.NoteLocationUpdate();
+
+    private void OnLoaded(object? sender, EventArgs e) => ViewModel.OnLoaded();
 }

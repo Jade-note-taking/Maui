@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="JadeMaui.Controls.NoteInListControl"
+    x:DataType="models:Note"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:models="clr-namespace:JadeMaui.Models"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <FlexLayout Padding="20,0,0,0">
+        <Label Text="{Binding location}" VerticalTextAlignment="Center" />
+        <Label Text="/" VerticalTextAlignment="Center" />
+        <Label Text="{Binding name}" VerticalTextAlignment="Center" />
+    </FlexLayout>
+</ContentView>

@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
+    Loaded="OnLoaded"
     x:Class="JadeMaui.Views.JadePage"
     x:DataType="viewmodels:JadeViewModel"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
@@ -20,79 +21,79 @@
             Text="Notes" />
     </ContentPage.ToolbarItems>
 
-    <Grid>
-        <Label
-            FontSize="18"
-            HorizontalOptions="Center"
-            IsVisible="False"
-            Margin="0,50,0,0"
-            Text="Please select a note"
-            VerticalOptions="Fill" />
 
-        <StackLayout
-            HorizontalOptions="Fill"
-            Margin="10,15"
-            x:Name="NoteContent">
-            <StackLayout.Triggers>
+    <StackLayout Margin="15">
+        <Grid
+            ColumnDefinitions="*, Auto"
+            ColumnSpacing="10"
+            VerticalOptions="Start">
+            <Grid.Triggers>
                 <DataTrigger
                     Binding="{Binding Note}"
-                    TargetType="StackLayout"
+                    TargetType="Grid"
                     Value="{x:Null}">
-                    <Setter Property="IsVisible" Value="False" />
+                    <Setter Property="ColumnDefinitions" Value="*, Auto, Auto" />
                 </DataTrigger>
-            </StackLayout.Triggers>
+            </Grid.Triggers>
 
-            <Label
-                FontSize="18"
-                HorizontalOptions="Start"
-                Text="{Binding Note.location}" />
+            <Picker
+                Grid.Column="0"
+                ItemsSource="{Binding Locations}"
+                SelectedIndexChanged="NoteLocationUpdate"
+                SelectedItem="{Binding SelectedLocation}" />
+
+            <Button
+                Command="{Binding NotesPageCommand}"
+                Grid.Column="1"
+                ImageSource="{icons:Material FolderCopy,
+                                             IconSize=17}"
+                Text="Notes"
+                VerticalOptions="Center">
+                <Button.IsVisible>
+                    <OnPlatform x:TypeArguments="system:Boolean">
+                        <On Platform="Android" Value="False" />
+                        <On Platform="WinUI" Value="True" />
+                    </OnPlatform>
+                </Button.IsVisible>
+            </Button>
+
+            <Button
+                Grid.Column="2"
+                ImageSource="{icons:Material Check,
+                                             IconSize=17}"
+                Text="Save new note"
+                VerticalOptions="Center">
+                <Button.Triggers>
+                    <DataTrigger
+                        Binding="{Binding Note}"
+                        TargetType="Button"
+                        Value="{x:Null}">
+                        <Setter Property="IsVisible" Value="True" />
+                    </DataTrigger>
+                </Button.Triggers>
+                <Button.IsVisible>
+                    <OnPlatform x:TypeArguments="system:Boolean">
+                        <On Platform="Android" Value="False" />
+                    </OnPlatform>
+                </Button.IsVisible>
+            </Button>
+        </Grid>
+
+        <StackLayout HorizontalOptions="Fill" x:Name="NoteContent">
             <Entry
                 FontSize="26"
-                Margin="0,30,0,0"
+                Margin="0,15,0,0"
+                Placeholder="Note title"
                 Text="{Binding Note.name}"
-                TextChanged="NoteUpdate" />
+                TextChanged="NoteNameUpdate" />
             <Editor
                 AutoSize="TextChanges"
-                Margin="0,30,0,0"
+                Margin="0,15,0,0"
                 MinimumHeightRequest="300"
+                Placeholder="My note content..."
                 Text="{Binding Content}"
                 TextChanged="NoteContentUpdate" />
-
         </StackLayout>
 
-        <FlexLayout
-            AlignItems="Center"
-            Direction="Row"
-            HorizontalOptions="Center"
-            IsVisible="{Binding Loading}"
-            JustifyContent="Center"
-            Margin="0,50,0,0"
-            MinimumWidthRequest="600"
-            VerticalOptions="Start"
-            Wrap="NoWrap">
-
-            <ActivityIndicator
-                HorizontalOptions="CenterAndExpand"
-                IsRunning="True"
-                IsVisible="True"
-                VerticalOptions="CenterAndExpand" />
-        </FlexLayout>
-
-
-        <Button
-            Command="{Binding NotesPageCommand}"
-            HorizontalOptions="End"
-            ImageSource="{icons:Material FolderCopy,
-                                         IconSize=17}"
-            Margin="0,15,15,0"
-            Text="Notes"
-            VerticalOptions="Start">
-            <Button.IsVisible>
-                <OnPlatform x:TypeArguments="system:Boolean">
-                    <On Platform="Android" Value="False" />
-                    <On Platform="WinUI" Value="True" />
-                </OnPlatform>
-            </Button.IsVisible>
-        </Button>
-    </Grid>
+    </StackLayout>
 </ContentPage>
