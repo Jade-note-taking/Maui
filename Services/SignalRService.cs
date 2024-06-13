@@ -1,11 +1,23 @@
 ﻿using JadeMaui.Helpers;
 using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.Configuration;
 
 namespace JadeMaui.Services;
 
-public class CosmosService
+public class SignalRService
 {
-    private readonly HubConnection _connection = ServiceHelper.GetService<HubConnection>();
+    private readonly HubConnection _connection;
+    private readonly ConfigurationManager _configuration = ServiceHelper.GetService<ConfigurationManager>();
+
+    public SignalRService()
+    {
+        _connection = new HubConnectionBuilder()
+            .WithUrl(_configuration["SignalR:NoteUrl"]!, options =>
+            {
+                options.AccessTokenProvider = async () => await UserManager.GetAccessToken();
+            })
+            .Build();
+    }
 
     private async Task StartIfPossible()
     {

@@ -15,7 +15,7 @@
 
     <Shell.FlyoutBackgroundColor>
         <OnPlatform x:TypeArguments="Color">
-            <On Platform="Android" Value="{StaticResource PrimaryDark}" />
+            <On Platform="Android" Value="Gray" />
             <On Platform="WinUI" Value="Transparent" />
         </OnPlatform>
     </Shell.FlyoutBackgroundColor>

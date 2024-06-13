@@ -7,7 +7,7 @@
         <Setter Property="Background">
             <Setter.Value>
                 <OnPlatform x:TypeArguments="Brush">
-                    <On Platform="Android" Value="Black" />
+                    <On Platform="Android" Value="White" />
                     <On Platform="Windows" Value="Transparent" />
                 </OnPlatform>
             </Setter.Value>

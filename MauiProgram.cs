@@ -56,7 +56,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<ProfilePage>();
 
         // Services
-        builder.Services.AddSingleton<CosmosService>();
+        builder.Services.AddSingleton<SignalRService>();
         builder.Services.AddSingleton<RestService>();
         builder.Services.AddSingleton<NoteService>();
         builder.Services.AddSingleton<DebounceService>();
@@ -65,10 +65,6 @@ public static class MauiProgram
         builder.Services.AddSingleton(auth0Client);
         builder.Services.AddSingleton(builder.Configuration);
         builder.Services.AddSingleton(new UserManager(auth0Domain, auth0ClientId, auth0Client));
-
-        builder.Services.AddSingleton(new HubConnectionBuilder()
-            .WithUrl(signalRNoteUrl)
-            .Build());
 
         return builder.Build();
     }
