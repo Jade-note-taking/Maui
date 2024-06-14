@@ -35,7 +35,7 @@ public partial class NotesViewModel : ObservableObject
     {
         var connection = await _signalRService.GetConnection();
         await connection.InvokeCoreAsync("Init", args: new object?[] {});
-        foreach (var note in AllNotes)
+        foreach (var note in Notes)
         {
             connection.On<string, string?>($"Note.Update.{note.cosmosId}", (noteName, noteLocation) =>
             {
@@ -45,7 +45,7 @@ public partial class NotesViewModel : ObservableObject
 
         connection.On<Note>("Note.Create", (note) =>
         {
-            AllNotes.Add(note);
+            Notes.Add(note);
             connection.On<string, string?>($"Note.Update.{note.cosmosId}", (noteName, noteLocation) => UpdateNote(note.id, noteName, noteLocation));
         });
     }
