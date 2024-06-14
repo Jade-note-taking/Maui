@@ -44,4 +44,12 @@ public partial class NotesPage : ContentPage
         base.OnAppearing();
         await ViewModel.OnAppearing();
     }
+    protected override async void OnDisappearing()
+    {
+        base.OnDisappearing();
+        await ViewModel.OnDisappearing();
+    }
+
+    private void DeleteNote(object? sender, EventArgs e) => ViewModel.DeleteNote(sender, e);
+    private void ArchiveNote(object? sender, EventArgs e) => ViewModel.ArchiveNote(sender, e);
 }

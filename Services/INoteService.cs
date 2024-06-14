@@ -4,6 +4,7 @@ namespace JadeMaui.Services;
 
 public interface INoteService
 {
-    Task<string?> GetNote(string id);
+    Task<string?> GetNoteContent(string id);
+    Task<Note?> GetNote(string id);
     Task<List<Note>?> GetNotes();
 }

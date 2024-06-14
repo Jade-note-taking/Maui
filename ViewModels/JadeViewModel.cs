@@ -45,7 +45,7 @@ public partial class JadeViewModel : ObservableObject
         SelectedLocation = (Note == null ? "./" : Note.location) ?? "./";
     }
 
-    public void ApplyQueryAttributes(IDictionary<string, object?> query)
+    public async Task ApplyQueryAttributes(IDictionary<string, object?> query)
     {
         query.TryGetValue("Note", out var value);
 
@@ -58,7 +58,8 @@ public partial class JadeViewModel : ObservableObject
         }
         else
         {
-            Note = value as Note;
+            var queryNote = value as Note;
+            Note = await _noteService.GetNote(queryNote!.id);
             SelectedLocation = Note.location;
             NoteName = Note.name;
             StartSignalRConnection();
@@ -76,7 +77,7 @@ public partial class JadeViewModel : ObservableObject
             SelectedLocation = noteLocation ?? "./";
             Note.location = noteLocation;
         });
-        Content = await _noteService.GetNote(Note.id);
+        Content = await _noteService.GetNoteContent(Note.id);
     }
 
     public void NoteContentUpdate(TextChangedEventArgs e) => _debounceService.Debounce(500, async () =>

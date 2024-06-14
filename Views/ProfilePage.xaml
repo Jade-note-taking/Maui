@@ -10,7 +10,7 @@
         <ToolbarItem
             Clicked="Logout"
             IconImageSource="{icons:Material Logout,
-                                             IconSize=17}"
+                                             IconSize=20}"
             Text="Log Out" />
     </ContentPage.ToolbarItems>
     <Grid>

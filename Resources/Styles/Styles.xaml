@@ -18,6 +18,11 @@
         <Setter Property="TextColor" Value="White" />
     </Style>
 
+    <Style TargetType="Frame" x:Key="NoteInList">
+        <Setter Property="CornerRadius" Value="5" />
+        <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+    </Style>
+
     <!-- <Style TargetType="ActivityIndicator"> -->
     <!--     <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" /> -->
     <!-- </Style> -->

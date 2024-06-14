@@ -4,6 +4,7 @@
     x:Class="JadeMaui.Views.NotesPage"
     x:DataType="viewmodels:NotesViewModel"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
     xmlns:icons="http://www.aathifmahir.com/dotnet/2022/maui/icons"
     xmlns:system="clr-namespace:System;assembly=System.Runtime"
     xmlns:viewmodels="clr-namespace:JadeMaui.ViewModels"
@@ -11,11 +12,25 @@
     <ContentPage.BindingContext>
         <viewmodels:NotesViewModel />
     </ContentPage.BindingContext>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Clicked="GoBack"
+            IconImageSource="{icons:Material Add,
+                                             IconSize=20}"
+            Text="New" />
+    </ContentPage.ToolbarItems>
 
     <ScrollView>
         <VerticalStackLayout Margin="15,15,15,0">
 
             <Grid ColumnDefinitions="*, Auto" ColumnSpacing="10">
+                <!-- <Grid.ColumnDefinitions> -->
+                <!--     <OnPlatform x:TypeArguments="ColumnDefinitionCollection"> -->
+                <!--         <On Platform="Android" Value="*" /> -->
+                <!--         <On Platform="WinUI" Value="*, Auto" /> -->
+                <!--     </OnPlatform> -->
+                <!-- </Grid.ColumnDefinitions> -->
+
                 <SearchBar
                     Grid.Column="0"
                     Placeholder="Search for notes"
@@ -39,16 +54,42 @@
             </Grid>
 
             <CollectionView
-                BackgroundColor="Gray"
                 ItemsSource="{Binding Notes}"
                 Margin="0,15,0,0"
                 SelectionChanged="NoteSelected"
                 SelectionMode="Single"
                 x:Name="NoteList"
                 xmlns:controls="clr-namespace:JadeMaui.Controls">
+                <CollectionView.EmptyView>
+                    <StackLayout Padding="12">
+                        <Label HorizontalOptions="Center" Text="No notes available" />
+                    </StackLayout>
+                </CollectionView.EmptyView>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <controls:NoteInListControl />
+                        <SwipeView android:SwipeView.SwipeTransitionMode="Drag">
+                            <SwipeView.RightItems>
+                                <SwipeItems>
+                                    <SwipeItem
+                                        BackgroundColor="Brown"
+                                        IconImageSource="{icons:Material Delete,
+                                                                         IconSize=17}"
+                                        Invoked="DeleteNote"
+                                        Text="Delete" />
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+                            <SwipeView.LeftItems>
+                                <SwipeItems>
+                                    <SwipeItem
+                                        BackgroundColor="Chartreuse"
+                                        IconImageSource="{icons:Material Archive,
+                                                                         IconSize=17}"
+                                        Invoked="ArchiveNote"
+                                        Text="Archive" />
+                                </SwipeItems>
+                            </SwipeView.LeftItems>
+                            <controls:NoteInListControl />
+                        </SwipeView>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
