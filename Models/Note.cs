@@ -7,4 +7,5 @@ public class Note()
     public string name { get; set; }
     public string? location { get; set; }
     public string cosmosId { get; set; }
+    public bool archive { get; set; }
 }

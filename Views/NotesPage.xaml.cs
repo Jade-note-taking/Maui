@@ -1,5 +1,4 @@
 ﻿using JadeMaui.Helpers;
-using JadeMaui.Models;
 using JadeMaui.Services;
 using JadeMaui.ViewModels;
 
@@ -15,18 +14,6 @@ public partial class NotesPage : ContentPage
         InitializeComponent();
         ViewModel = new NotesViewModel();
         BindingContext = ViewModel;
-    }
-
-    private async void NoteSelected(object sender, SelectionChangedEventArgs e)
-    {
-        if (e.CurrentSelection.FirstOrDefault() is not Note note) return;
-
-        var navigationParameter = new Dictionary<string, object>
-        {
-            { "Note", note }
-        };
-
-        await Shell.Current.GoToAsync("..", navigationParameter);
     }
 
     private async void GoBack(object? sender, EventArgs eventArgs)
@@ -49,7 +36,4 @@ public partial class NotesPage : ContentPage
         base.OnDisappearing();
         await ViewModel.OnDisappearing();
     }
-
-    private void DeleteNote(object? sender, EventArgs e) => ViewModel.DeleteNote(sender, e);
-    private void ArchiveNote(object? sender, EventArgs e) => ViewModel.ArchiveNote(sender, e);
 }

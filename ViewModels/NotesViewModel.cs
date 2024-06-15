@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
-using System.Diagnostics;
 using JadeMaui.Helpers;
 using JadeMaui.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using JadeMaui.Models;
 using Microsoft.AspNetCore.SignalR.Client;
 
@@ -45,8 +45,27 @@ public partial class NotesViewModel : ObservableObject
 
         connection.On<Note>("Note.Create", (note) =>
         {
+            var indexNotes = Notes.ToList().FindIndex(n => n.id == note.id);
+            if (indexNotes != -1) return;
+
             Notes.Add(note);
             connection.On<string, string?>($"Note.Update.{note.cosmosId}", (noteName, noteLocation) => UpdateNote(note.id, noteName, noteLocation));
+        });
+
+        connection.On<string>("Note.Delete", (noteId) =>
+        {
+            var indexNotes = Notes.ToList().FindIndex(n => n.id == noteId);
+            if (indexNotes != -1) Notes.RemoveAt(indexNotes);
+            // var indexAllNotes = AllNotes.FindIndex(n => n.id == noteId);
+            // AllNotes.RemoveAt(indexAllNotes);
+        });
+
+        connection.On<string>("Note.Archive", (noteId) =>
+        {
+            var indexNotes = Notes.ToList().FindIndex(n => n.id == noteId);
+            if (indexNotes != -1) Notes.RemoveAt(indexNotes);
+            // var indexAllNotes = AllNotes.FindIndex(n => n.id == noteId);
+            // AllNotes.RemoveAt(indexAllNotes);
         });
     }
 
@@ -96,21 +115,30 @@ public partial class NotesViewModel : ObservableObject
         // });
     }
 
-    public void DeleteNote(object? sender, EventArgs eventArgs)
+    [RelayCommand]
+    private async Task NoteSelected(Note note)
     {
-        if (sender is not Note note) return;
+        var navigationParameter = new Dictionary<string, object>
+        {
+            { "Note", note }
+        };
 
-        Debug.WriteLine($"DELETE {note.name}");
-
-        // Delete the note
+        await Shell.Current.GoToAsync("..", navigationParameter);
     }
 
-    public void ArchiveNote(object? sender, EventArgs eventArgs)
+    [RelayCommand]
+    private async Task DeleteNote(Note note)
     {
-        if (sender is not Note note) return;
+        var connection = await _signalRService.GetConnection();
+        await connection.InvokeCoreAsync("Delete", args: new object?[] {note.id});
+        Notes.Remove(note);
+    }
 
-        Debug.WriteLine($"ARCHIVE {note.name}");
-
-        // Archive the note
+    [RelayCommand]
+    private async Task ArchiveNote(Note note)
+    {
+        var connection = await _signalRService.GetConnection();
+        await connection.InvokeCoreAsync("Archive", args: new object?[] {note.id});
+        Notes.Remove(note);
     }
 }
