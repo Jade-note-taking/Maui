@@ -77,7 +77,17 @@ public partial class JadeViewModel : ObservableObject
             SelectedLocation = noteLocation ?? "./";
             Note.location = noteLocation;
         });
-        Content = await _noteService.GetNoteContent(Note.id);
+        var content = await _noteService.GetNoteContent(Note.id);
+        if (content == null) // Note has been deleted meanwhile
+        {
+            Note = null;
+            NoteName = "";
+            Content = null;
+            SelectedLocation = "./";
+            return;
+        }
+        Content = content;
+
     }
 
     public void NoteContentUpdate(TextChangedEventArgs e) => _debounceService.Debounce(500, async () =>
@@ -119,5 +129,12 @@ public partial class JadeViewModel : ObservableObject
     {
         await _signalRService.StopConnection();
         await Shell.Current.GoToAsync(Routes.NotesPage);
+    }
+
+    [RelayCommand]
+    private async Task NotesArchivePage()
+    {
+        await _signalRService.StopConnection();
+        await Shell.Current.GoToAsync(Routes.NotesArchivePage);
     }
 }

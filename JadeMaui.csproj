@@ -86,6 +86,9 @@
 	  <MauiXaml Update="Views\NotesPage.xaml">
 	    <SubType>Designer</SubType>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\NotesArchivePage.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -112,6 +115,10 @@
 	  </Compile>
 	  <Compile Update="Views\NotesPage.xaml.cs">
 	    <DependentUpon>FoldersPage.xaml</DependentUpon>
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="Views\NotesArchivePage.xaml.cs">
+	    <DependentUpon>NotesArchivePage.xaml</DependentUpon>
 	    <SubType>Code</SubType>
 	  </Compile>
 	</ItemGroup>

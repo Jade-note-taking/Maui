@@ -15,6 +15,11 @@
 
     <ContentPage.ToolbarItems>
         <ToolbarItem
+            Command="{Binding NotesArchivePageCommand}"
+            IconImageSource="{icons:Material Archive,
+                                             IconSize=20}"
+            Text="Archive" />
+        <ToolbarItem
             Command="{Binding NotesPageCommand}"
             IconImageSource="{icons:Material FolderCopy,
                                              IconSize=20}"
@@ -38,7 +43,7 @@
 
     <StackLayout Margin="15">
         <Grid
-            ColumnDefinitions="*, Auto"
+            ColumnDefinitions="*, Auto, Auto"
             ColumnSpacing="10"
             VerticalOptions="Start">
             <Grid.Triggers>
@@ -46,7 +51,7 @@
                     Binding="{Binding Note}"
                     TargetType="Grid"
                     Value="{x:Null}">
-                    <Setter Property="ColumnDefinitions" Value="*, Auto, Auto" />
+                    <Setter Property="ColumnDefinitions" Value="*, Auto, Auto, Auto" />
                 </DataTrigger>
             </Grid.Triggers>
 
@@ -57,8 +62,23 @@
                 SelectedItem="{Binding SelectedLocation}" />
 
             <Button
-                Command="{Binding NotesPageCommand}"
+                Command="{Binding NotesArchivePageCommand}"
                 Grid.Column="1"
+                ImageSource="{icons:Material Archive,
+                                             IconSize=17}"
+                Text="Archived"
+                VerticalOptions="Center">
+                <Button.IsVisible>
+                    <OnPlatform x:TypeArguments="system:Boolean">
+                        <On Platform="Android" Value="False" />
+                        <On Platform="WinUI" Value="True" />
+                    </OnPlatform>
+                </Button.IsVisible>
+            </Button>
+
+            <Button
+                Command="{Binding NotesPageCommand}"
+                Grid.Column="2"
                 ImageSource="{icons:Material FolderCopy,
                                              IconSize=17}"
                 Text="Notes"
@@ -73,7 +93,7 @@
 
             <Button
                 Command="{Binding SaveNoteCommand}"
-                Grid.Column="2"
+                Grid.Column="3"
                 ImageSource="{icons:Material Check,
                                              IconSize=17}"
                 Text="Save new note"

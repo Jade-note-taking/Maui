@@ -9,5 +9,6 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(NotesPage), typeof(NotesPage));
         Routing.RegisterRoute(nameof(JadePage), typeof(JadePage));
         Routing.RegisterRoute(nameof(ProfilePage), typeof(ProfilePage));
+        Routing.RegisterRoute(nameof(NotesArchivePage), typeof(NotesArchivePage));
     }
 }

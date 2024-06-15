@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentPage
+    x:Class="JadeMaui.Views.NotesArchivePage"
+    x:DataType="viewmodels:NotesArchiveViewModel"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
+    xmlns:icons="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+    xmlns:models="clr-namespace:JadeMaui.Models"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime"
+    xmlns:viewmodels="clr-namespace:JadeMaui.ViewModels"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <ContentPage.BindingContext>
+        <viewmodels:NotesArchiveViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <VerticalStackLayout Margin="15,15,15,0">
+            <CollectionView
+                ItemsSource="{Binding Notes}"
+                SelectionMode="None"
+                x:Name="NoteList"
+                xmlns:controls="clr-namespace:JadeMaui.Controls">
+                <CollectionView.EmptyView>
+                    <StackLayout Padding="12">
+                        <Label HorizontalOptions="Center" Text="No archived notes" />
+                    </StackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout>
+                            <SwipeView android:SwipeView.SwipeTransitionMode="Drag">
+                                <SwipeView.IsVisible>
+                                    <OnPlatform x:TypeArguments="system:Boolean">
+                                        <On Platform="Android" Value="True" />
+                                        <On Platform="WinUI" Value="False" />
+                                    </OnPlatform>
+                                </SwipeView.IsVisible>
+                                <SwipeView.LeftItems>
+                                    <SwipeItems>
+                                        <SwipeItem
+                                            BackgroundColor="WhiteSmoke"
+                                            Command="{Binding Source={x:Reference NoteList}, Path=BindingContext.NoteSelectedCommand}"
+                                            CommandParameter="{Binding .}"
+                                            IconImageSource="{icons:Material Visibility,
+                                                                             IconSize=17}"
+                                            Text="View" />
+                                    </SwipeItems>
+                                </SwipeView.LeftItems>
+                                <SwipeView.RightItems>
+                                    <SwipeItems>
+                                        <SwipeItem
+                                            BackgroundColor="Brown"
+                                            Command="{Binding Source={x:Reference NoteList}, Path=BindingContext.DeleteNoteCommand}"
+                                            CommandParameter="{Binding .}"
+                                            IconImageSource="{icons:Material Delete,
+                                                                             IconSize=17}"
+                                            Text="Delete" />
+                                        <SwipeItem
+                                            BackgroundColor="White"
+                                            Command="{Binding Source={x:Reference NoteList}, Path=BindingContext.InboxNoteCommand}"
+                                            CommandParameter="{Binding .}"
+                                            IconImageSource="{icons:Material Inbox,
+                                                                             IconSize=17}"
+                                            Text="Inbox" />
+                                    </SwipeItems>
+                                </SwipeView.RightItems>
+                                <controls:NoteInListControl />
+                            </SwipeView>
+
+                            <Frame BackgroundColor="Transparent" CornerRadius="5">
+                                <Frame.IsVisible>
+                                    <OnPlatform x:TypeArguments="system:Boolean">
+                                        <On Platform="Android" Value="False" />
+                                        <On Platform="WinUI" Value="True" />
+                                    </OnPlatform>
+                                </Frame.IsVisible>
+                                <StackLayout>
+                                    <StackLayout
+                                        HorizontalOptions="Start"
+                                        Orientation="Horizontal"
+                                        VerticalOptions="Center"
+                                        x:DataType="models:Note">
+                                        <Button
+                                            BackgroundColor="Transparent"
+                                            Command="{Binding Source={x:Reference NoteList}, Path=BindingContext.DeleteNoteCommand}"
+                                            CommandParameter="{Binding .}"
+                                            HeightRequest="40"
+                                            ImageSource="{icons:Material Delete,
+                                                                         IconColor=Brown,
+                                                                         IconSize=20}"
+                                            Margin="0,0,10,0" />
+                                        <Button
+                                            BackgroundColor="Transparent"
+                                            Command="{Binding Source={x:Reference NoteList}, Path=BindingContext.NoteSelectedCommand}"
+                                            CommandParameter="{Binding .}"
+                                            HeightRequest="40"
+                                            ImageSource="{icons:Material Visibility,
+                                                                         IconColor=White,
+                                                                         IconSize=20}"
+                                            Margin="0,0,30,0"
+                                            WidthRequest="80" />
+                                        <Button
+                                            BackgroundColor="Transparent"
+                                            Command="{Binding Source={x:Reference NoteList}, Path=BindingContext.InboxNoteCommand}"
+                                            CommandParameter="{Binding .}"
+                                            HeightRequest="40"
+                                            ImageSource="{icons:Material Inbox,
+                                                                         IconColor=White,
+                                                                         IconSize=20}"
+                                            Margin="0,0,30,0"
+                                            WidthRequest="160" />
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="20"
+                                            Text="{Binding location}"
+                                            VerticalTextAlignment="Center" />
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="20"
+                                            Text="/"
+                                            VerticalTextAlignment="Center" />
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="20"
+                                            Text="{Binding name}"
+                                            VerticalTextAlignment="Center" />
+                                    </StackLayout>
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

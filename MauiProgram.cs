@@ -53,6 +53,7 @@ public static class MauiProgram
         // Pages
         builder.Services.AddSingleton<JadePage>();
         builder.Services.AddSingleton<NotesPage>();
+        builder.Services.AddSingleton<NotesArchivePage>();
         builder.Services.AddSingleton<ProfilePage>();
 
         // Services

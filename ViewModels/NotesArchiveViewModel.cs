@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 using JadeMaui.Helpers;
 using JadeMaui.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -8,13 +9,10 @@ using Microsoft.AspNetCore.SignalR.Client;
 
 namespace JadeMaui.ViewModels;
 
-public partial class NotesViewModel : ObservableObject
+public partial class NotesArchiveViewModel : ObservableObject
 {
     private readonly SignalRService _signalRService = ServiceHelper.GetService<SignalRService>();
     private readonly NoteService _noteService = ServiceHelper.GetService<NoteService>();
-
-    [ObservableProperty]
-    private List<Note>? _allNotes;
 
     private ObservableCollection<Note>? notes;
     public ObservableCollection<Note>? Notes
@@ -25,7 +23,7 @@ public partial class NotesViewModel : ObservableObject
 
     public async Task OnAppearing()
     {
-        Notes = new ObservableCollection<Note>(await _noteService.GetNotes());
+        Notes = new ObservableCollection<Note>(await _noteService.GetArchiveNotes());
         SortNotes();
 
         await StartSignalRConnection();
@@ -43,16 +41,7 @@ public partial class NotesViewModel : ObservableObject
             });
         }
 
-        connection.On<Note>("Note.Create", (note) =>
-        {
-            var indexNotes = Notes.ToList().FindIndex(n => n.id == note.id);
-            if (indexNotes != -1) return;
-
-            Notes.Add(note);
-            connection.On<string, string?>($"Note.Update.{note.cosmosId}", (noteName, noteLocation) => UpdateNote(note.id, noteName, noteLocation));
-        });
-
-        connection.On<Note>("Note.Inbox", (note) =>
+        connection.On<Note>("Note.Archive", (note) =>
         {
             var indexNotes = Notes.ToList().FindIndex(n => n.id == note.id);
             if (indexNotes != -1) return;
@@ -65,16 +54,12 @@ public partial class NotesViewModel : ObservableObject
         {
             var indexNotes = Notes.ToList().FindIndex(n => n.id == noteId);
             if (indexNotes != -1) Notes.RemoveAt(indexNotes);
-            // var indexAllNotes = AllNotes.FindIndex(n => n.id == noteId);
-            // AllNotes.RemoveAt(indexAllNotes);
         });
 
-        connection.On<Note>("Note.Archive", (Note note) =>
+        connection.On<Note>("Note.Inbox", (Note note) =>
         {
             var indexNotes = Notes.ToList().FindIndex(n => n.id == note.id);
             if (indexNotes != -1) Notes.RemoveAt(indexNotes);
-            // var indexAllNotes = AllNotes.FindIndex(n => n.id == noteId);
-            // AllNotes.RemoveAt(indexAllNotes);
         });
     }
 
@@ -107,24 +92,6 @@ public partial class NotesViewModel : ObservableObject
         await _signalRService.StopConnection();
     }
 
-    public void SearchForNotes(object? sender, EventArgs eventArgs)
-    {
-        // SearchBar searchBar = (SearchBar)sender;
-        // var searchKeyword = searchBar.Text;
-        //
-        // if (searchKeyword == string.Empty)
-        // {
-        //     Notes = AllNotes;
-        //     return;
-        // }
-        //
-        // Notes = AllNotes.FindAll(n =>
-        // {
-        //     var keyword = $"{n.location}/{n.name}";
-        //     return keyword.Contains(searchKeyword, StringComparison.CurrentCultureIgnoreCase);
-        // });
-    }
-
     [RelayCommand]
     private async Task NoteSelected(Note note)
     {
@@ -145,10 +112,11 @@ public partial class NotesViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task ArchiveNote(Note note)
+    private async Task InboxNote(Note note)
     {
+        Debug.WriteLine("InboxNote command is hit");
         var connection = await _signalRService.GetConnection();
-        await connection.InvokeCoreAsync("Archive", args: new object?[] {note.id});
+        await connection.InvokeCoreAsync("Inbox", args: new object?[] {note.id});
         Notes.Remove(note);
     }
 }
