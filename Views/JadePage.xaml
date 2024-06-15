@@ -43,7 +43,7 @@
 
     <StackLayout Margin="15">
         <Grid
-            ColumnDefinitions="*, Auto, Auto"
+            ColumnDefinitions="Auto, *, Auto, Auto"
             ColumnSpacing="10"
             VerticalOptions="Start">
             <Grid.Triggers>
@@ -51,19 +51,50 @@
                     Binding="{Binding Note}"
                     TargetType="Grid"
                     Value="{x:Null}">
-                    <Setter Property="ColumnDefinitions" Value="*, Auto, Auto, Auto" />
+                    <Setter Property="ColumnDefinitions" Value="Auto, *, Auto, Auto, Auto" />
                 </DataTrigger>
             </Grid.Triggers>
 
-            <Picker
+            <Button
+                Command="{Binding ToggleCustomLocationEntryCommand}"
                 Grid.Column="0"
+                HeightRequest="30"
+                ImageSource="{icons:Material TextFields,
+                                             IconSize=17}"
+                VerticalOptions="Fill" />
+
+            <Picker
+                Grid.Column="1"
                 ItemsSource="{Binding Locations}"
-                SelectedIndexChanged="NoteLocationUpdate"
-                SelectedItem="{Binding SelectedLocation}" />
+                SelectedIndexChanged="NoteLocationUpdate">
+                <Picker.Triggers>
+                    <DataTrigger
+                        Binding="{Binding CustomLocationEntry}"
+                        TargetType="Picker"
+                        Value="true">
+                        <Setter Property="IsVisible" Value="False" />
+                    </DataTrigger>
+                </Picker.Triggers>
+            </Picker>
+
+            <Entry
+                Grid.Column="1"
+                IsVisible="False"
+                Text="{Binding SelectedLocation}"
+                TextChanged="NoteCustomLocationUpdate">
+                <Entry.Triggers>
+                    <DataTrigger
+                        Binding="{Binding CustomLocationEntry}"
+                        TargetType="Entry"
+                        Value="true">
+                        <Setter Property="IsVisible" Value="True" />
+                    </DataTrigger>
+                </Entry.Triggers>
+            </Entry>
 
             <Button
                 Command="{Binding NotesArchivePageCommand}"
-                Grid.Column="1"
+                Grid.Column="2"
                 ImageSource="{icons:Material Archive,
                                              IconSize=17}"
                 Text="Archived"
@@ -78,7 +109,7 @@
 
             <Button
                 Command="{Binding NotesPageCommand}"
-                Grid.Column="2"
+                Grid.Column="3"
                 ImageSource="{icons:Material FolderCopy,
                                              IconSize=17}"
                 Text="Notes"
@@ -93,7 +124,7 @@
 
             <Button
                 Command="{Binding SaveNoteCommand}"
-                Grid.Column="3"
+                Grid.Column="4"
                 ImageSource="{icons:Material Check,
                                              IconSize=17}"
                 Text="Save new note"

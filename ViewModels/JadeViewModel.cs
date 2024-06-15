@@ -20,6 +20,7 @@ public partial class JadeViewModel : ObservableObject
     [ObservableProperty] private List<string> _locations;
     [ObservableProperty] private string _selectedLocation;
     [ObservableProperty] private string _noteName;
+    [ObservableProperty] private bool _customLocationEntry = false;
 
     public async void OnLoaded()
     {
@@ -90,14 +91,14 @@ public partial class JadeViewModel : ObservableObject
 
     }
 
-    public void NoteContentUpdate(TextChangedEventArgs e) => _debounceService.Debounce(500, async () =>
+    public void NoteContentUpdate(TextChangedEventArgs e) => _debounceService.Debounce(1000, async () =>
     {
         if (Note == null || e.OldTextValue == e.NewTextValue) return;
         var connection = await _signalRService.GetConnection();
         await connection.InvokeCoreAsync("UpdateContent", args: new object?[] { Note.id, Content });
     });
 
-    public void NoteNameUpdate() => _debounceService.Debounce(500, async () =>
+    public void NoteNameUpdate() => _debounceService.Debounce(1000, async () =>
     {
         if (Note == null) return;
         var connection = await _signalRService.GetConnection();
@@ -105,8 +106,22 @@ public partial class JadeViewModel : ObservableObject
         await connection.InvokeCoreAsync("Update", args: new object?[] { Note.id, Note.name, Note.location });
     });
 
-    public void NoteLocationUpdate() => _debounceService.Debounce(500, async () =>
+    public void NoteCustomLocationUpdate() => _debounceService.Debounce(1000, async () =>
     {
+        if (Note == null) return;
+        var connection = await _signalRService.GetConnection();
+        Note.location = SelectedLocation == "./" ? null : SelectedLocation;
+        await connection.InvokeCoreAsync("Update", args: new object?[] { Note.id, Note.name, Note.location });
+    });
+
+    public void NoteLocationUpdate(object? sender, EventArgs e) => _debounceService.Debounce(1000, async () =>
+    {
+        var picker = (Picker)sender;
+        int selectedIndex = picker.SelectedIndex;
+
+        if (selectedIndex == -1) return;
+        SelectedLocation = (string)picker.ItemsSource[selectedIndex];
+
         if (Note == null) return;
         var connection = await _signalRService.GetConnection();
         Note.location = SelectedLocation == "./" ? null : SelectedLocation;
@@ -136,5 +151,11 @@ public partial class JadeViewModel : ObservableObject
     {
         await _signalRService.StopConnection();
         await Shell.Current.GoToAsync(Routes.NotesArchivePage);
+    }
+
+    [RelayCommand]
+    private void ToggleCustomLocationEntry()
+    {
+        CustomLocationEntry = !CustomLocationEntry;
     }
 }

@@ -20,7 +20,8 @@ public partial class JadePage : ContentPage, IQueryAttributable
         ViewModel.NoteContentUpdate(e); // Note content update
 
     private void NoteNameUpdate(object? sender, EventArgs e) => ViewModel.NoteNameUpdate();
-    private void NoteLocationUpdate(object? sender, EventArgs e) => ViewModel.NoteLocationUpdate();
+    private void NoteLocationUpdate(object? sender, EventArgs e) => ViewModel.NoteLocationUpdate(sender, e);
+    private void NoteCustomLocationUpdate(object? sender, EventArgs e) => ViewModel.NoteCustomLocationUpdate();
 
     private void OnLoaded(object? sender, EventArgs e) => ViewModel.OnLoaded();
 }
