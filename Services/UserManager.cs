@@ -21,9 +21,9 @@ public class UserManager : IUserManager
     public static async Task SetAccessToken(string accessToken) => await SecureStorage.Default.SetAsync("access_token", accessToken);
     public static async Task SetIdentityToken(string identityToken) => await SecureStorage.Default.SetAsync("id_token", identityToken);
     public static async Task SetRefreshToken(string refreshToken) => await SecureStorage.Default.SetAsync("refresh_token", refreshToken);
-    public static async Task<string?> GetAccessToken() => await SecureStorage.Default.GetAsync("access_token");
-    public static async Task<string?> GetIdentityToken() => await SecureStorage.Default.GetAsync("id_token");
-    public static async Task<string?> GetRefreshToken() => await SecureStorage.Default.GetAsync("refresh_token");
+    public async Task<string?> GetAccessToken() => await SecureStorage.Default.GetAsync("access_token");
+    public async Task<string?> GetIdentityToken() => await SecureStorage.Default.GetAsync("id_token");
+    public async Task<string?> GetRefreshToken() => await SecureStorage.Default.GetAsync("refresh_token");
 
     public async Task<ClaimsPrincipal?> GetAuthenticatedUser()
     {

@@ -10,8 +10,8 @@ namespace JadeMaui.ViewModels;
 
 public partial class NotesViewModel : ObservableObject
 {
-    private readonly SignalRService _signalRService = ServiceHelper.GetService<SignalRService>();
-    private readonly NoteService _noteService = ServiceHelper.GetService<NoteService>();
+    private readonly ISignalRService _signalRService = ServiceHelper.GetService<ISignalRService>();
+    private readonly INoteService _noteService = ServiceHelper.GetService<INoteService>();
 
     [ObservableProperty]
     private List<Note>? _allNotes;

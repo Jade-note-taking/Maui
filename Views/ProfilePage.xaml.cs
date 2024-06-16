@@ -8,9 +8,9 @@ namespace JadeMaui.Views;
 
 public partial class ProfilePage : ContentPage
 {
-    private readonly Auth0Client _auth0Client = ServiceHelper.GetService<Auth0Client>();
-    private readonly UserManager _userManager = ServiceHelper.GetService<UserManager>();
-    private readonly ConfigurationManager _configuration = ServiceHelper.GetService<ConfigurationManager>();
+    private readonly IAuth0Client _auth0Client = ServiceHelper.GetService<IAuth0Client>();
+    private readonly IUserManager _userManager = ServiceHelper.GetService<IUserManager>();
+    private readonly IConfigurationManager _configuration = ServiceHelper.GetService<IConfigurationManager>();
 
     public ProfilePage()
     {

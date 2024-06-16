@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JadeMaui", "JadeMaui.csproj", "{C5A22547-EDC8-4F5D-8A72-6522EE5BA5D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JadeMaui", "JadeMaui.csproj", "{C5A22547-EDC8-4F5D-8A72-6522EE5BA5D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JadeMauiUnitTest", "..\JadeMauiUnitTest\JadeMauiUnitTest.csproj", "{301E91DF-A749-4AC8-9239-ECA8EED18BE7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,6 +19,10 @@ Global
 		{C5A22547-EDC8-4F5D-8A72-6522EE5BA5D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5A22547-EDC8-4F5D-8A72-6522EE5BA5D7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C5A22547-EDC8-4F5D-8A72-6522EE5BA5D7}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{301E91DF-A749-4AC8-9239-ECA8EED18BE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{301E91DF-A749-4AC8-9239-ECA8EED18BE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{301E91DF-A749-4AC8-9239-ECA8EED18BE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{301E91DF-A749-4AC8-9239-ECA8EED18BE7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,6 +1,6 @@
 ﻿namespace JadeMaui.Services;
 
-public class DebounceService
+public class DebounceService: IDebounceService
 {
     private Timer? _timer;
 

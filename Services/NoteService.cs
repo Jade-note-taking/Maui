@@ -5,7 +5,7 @@ namespace JadeMaui.Services;
 
 public class NoteService : INoteService
 {
-    private readonly RestService _restService = ServiceHelper.GetService<RestService>();
+    private readonly IRestService _restService = ServiceHelper.GetService<IRestService>();
     private string Route = "/Notes";
 
     public async Task<string?> GetNoteContent(string id) => await _restService.GetItem<string>($"{Route}/content/{id}");

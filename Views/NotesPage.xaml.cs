@@ -6,7 +6,7 @@ namespace JadeMaui.Views;
 
 public partial class NotesPage : ContentPage
 {
-    private readonly NoteService _noteService = ServiceHelper.GetService<NoteService>();
+    private readonly INoteService _noteService = ServiceHelper.GetService<INoteService>();
     private NotesViewModel ViewModel;
 
     public NotesPage()

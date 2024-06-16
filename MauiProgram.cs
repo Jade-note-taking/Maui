@@ -57,10 +57,11 @@ public static class MauiProgram
         builder.Services.AddSingleton<ProfilePage>();
 
         // Services
-        builder.Services.AddSingleton<SignalRService>();
-        builder.Services.AddSingleton<RestService>();
-        builder.Services.AddSingleton<NoteService>();
-        builder.Services.AddSingleton<DebounceService>();
+        builder.Services.AddSingleton<ISignalRService, SignalRService>();
+        builder.Services.AddSingleton<INoteService, NoteService>();
+        builder.Services.AddSingleton<IDebounceService, DebounceService>();
+        builder.Services.AddSingleton<IRestService, RestService>();
+        builder.Services.AddSingleton<IUserManager, UserManager>();
 
         // Other
         builder.Services.AddSingleton(auth0Client);

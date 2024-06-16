@@ -9,7 +9,7 @@ namespace JadeMaui.Services;
 public class RestService : IRestService
 {
     private readonly HttpClient _client = new();
-    private readonly ConfigurationManager _configuration = ServiceHelper.GetService<ConfigurationManager>();
+    private readonly IConfigurationManager _configuration = ServiceHelper.GetService<IConfigurationManager>();
     private readonly JsonSerializerOptions _serializerOptions = new()
     {
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,

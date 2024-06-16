@@ -4,10 +4,10 @@ namespace JadeMaui.Services;
 
 public interface IUserManager
 {
-    public Task LogOutUser();
-    public Task<ClaimsPrincipal?> GetAuthenticatedUser();
-    public Task<string?> GetUserClaim(string claim, ClaimsPrincipal? user = null);
-    public static abstract Task SetAccessToken(string accessToken);
-    public static abstract Task SetIdentityToken(string identityToken);
-    public static abstract Task SetRefreshToken(string refreshToken);
+    Task<ClaimsPrincipal?> GetAuthenticatedUser();
+    Task LogOutUser();
+    Task<string?> GetUserClaim(string claim, ClaimsPrincipal? user = null);
+    Task<string?> GetAccessToken();
+    Task<string?> GetIdentityToken();
+    Task<string?> GetRefreshToken();
 }

@@ -10,9 +10,24 @@ namespace JadeMaui.ViewModels;
 
 public partial class JadeViewModel : ObservableObject
 {
-    private readonly SignalRService _signalRService = ServiceHelper.GetService<SignalRService>();
-    private readonly NoteService _noteService = ServiceHelper.GetService<NoteService>();
-    private readonly DebounceService _debounceService = ServiceHelper.GetService<DebounceService>();
+    private readonly ISignalRService _signalRService;
+    private readonly INoteService _noteService;
+    private readonly IDebounceService _debounceService;
+
+    // Constructor for Dependency Injection
+    public JadeViewModel(ISignalRService signalRService, INoteService noteService, IDebounceService debounceService)
+    {
+        _signalRService = signalRService;
+        _noteService = noteService;
+        _debounceService = debounceService;
+    }
+
+    public JadeViewModel()
+    {
+        _signalRService = ServiceHelper.GetService<ISignalRService>();
+        _noteService = ServiceHelper.GetService<INoteService>();
+        _debounceService = ServiceHelper.GetService<IDebounceService>();
+    }
 
     [ObservableProperty] private Note? _note = null;
     [ObservableProperty] private string? _content = null;
@@ -63,11 +78,11 @@ public partial class JadeViewModel : ObservableObject
             Note = await _noteService.GetNote(queryNote!.id);
             SelectedLocation = Note.location;
             NoteName = Note.name;
-            StartSignalRConnection();
+            await StartSignalRConnection();
         }
     }
 
-    private async void StartSignalRConnection()
+    public async Task StartSignalRConnection()
     {
         if (Note == null) return;
         var connection = await _signalRService.GetConnection();
