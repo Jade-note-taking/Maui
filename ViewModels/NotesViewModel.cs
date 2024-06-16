@@ -109,20 +109,22 @@ public partial class NotesViewModel : ObservableObject
 
     public void SearchForNotes(object? sender, EventArgs eventArgs)
     {
-        // SearchBar searchBar = (SearchBar)sender;
-        // var searchKeyword = searchBar.Text;
-        //
-        // if (searchKeyword == string.Empty)
-        // {
-        //     Notes = AllNotes;
-        //     return;
-        // }
-        //
-        // Notes = AllNotes.FindAll(n =>
-        // {
-        //     var keyword = $"{n.location}/{n.name}";
-        //     return keyword.Contains(searchKeyword, StringComparison.CurrentCultureIgnoreCase);
-        // });
+        SearchBar searchBar = (SearchBar)sender;
+        var searchKeyword = searchBar.Text;
+
+        if (AllNotes == null) AllNotes = Notes.ToList();
+
+        if (searchKeyword == string.Empty)
+        {
+            Notes = new ObservableCollection<Note>(AllNotes);
+            return;
+        }
+
+        Notes = new ObservableCollection<Note>(AllNotes.FindAll(n =>
+        {
+            var keyword = $"{n.location}/{n.name}";
+            return keyword.Contains(searchKeyword, StringComparison.CurrentCultureIgnoreCase);
+        }));
     }
 
     [RelayCommand]
